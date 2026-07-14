@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PropXP Trader Championship — Prove Your Skill. Earn Your Capital.</title>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.0/dist/index.global.js"
+    integrity="sha384-nWTzRTCY/9V4Bo352ehygr1c4cnst4XN6lMR3fipakEQrhVpc0hEM5Dii3Amz0sT"
+    crossorigin="anonymous"
+  ></script>
+  <style type="text/tailwindcss">
+    @custom-variant dark (&:where(.dark, .dark *));
+  </style>
+  <script>document.documentElement.classList.add('dark');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Vazirmatn:wght@400;600;800;900&family=Noto+Sans+Arabic:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #04060e;
+  --bg-2: #0a1020;
+  --card: #0f1626;
+  --card-2: #131c30;
+  --line: #24325a;
+  --gold: #ffcf4d;
+  --gold-2: #e6ad33;
+  --gold-hi: #fff2c2;
+  --emerald: #10d98f;
+  --emerald-2: #52f0b4;
+  --royal: #3b7bff;
+  --text: #f3f7ff;
+  --muted: #93a2c6;
+  --gold-glow: rgba(255,207,77,0.55);
+  --em-glow: rgba(16,217,143,0.45);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  position: relative;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* animated aurora / brand glow — gives energy + depth + "alive" feel */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+body::before {
+  width: 55vw; height: 55vw;
+  top: -18vw; right: -10vw;
+  background: radial-gradient(circle at 30% 30%, rgba(255,207,77,0.55), rgba(255,207,77,0) 70%);
+  animation: float-a 16s ease-in-out infinite;
+}
+body::after {
+  width: 50vw; height: 50vw;
+  top: 30vh; left: -15vw;
+  background: radial-gradient(circle at 50% 50%, rgba(16,217,143,0.4), rgba(16,217,143,0) 70%);
+  animation: float-b 20s ease-in-out infinite;
+}
+@keyframes float-a { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-4vw,4vh) scale(1.1)} }
+@keyframes float-b { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(4vw,-3vh) scale(1.15)} }
+
+/* subtle grid texture for a "trading terminal" identity */
+body { background-image:
+  linear-gradient(rgba(36,50,90,0.14) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(36,50,90,0.14) 1px, transparent 1px);
+  background-size: 44px 44px;
+  background-position: center;
+}
+
+.gold-text {
+  background: linear-gradient(96deg, var(--gold-2), var(--gold) 40%, var(--gold-hi) 60%, var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 26px rgba(255,207,77,0.18);
+}
+
+.btn-gold {
+  position: relative;
+  background: linear-gradient(180deg, #ffe58f, var(--gold) 42%, var(--gold-2));
+  color: #17130a;
+  font-weight: 800;
+  letter-spacing: .01em;
+  box-shadow: 0 10px 34px -8px var(--gold-glow), inset 0 1px 0 rgba(255,255,255,0.6);
+  transition: transform .15s ease, box-shadow .2s ease, filter .15s ease;
+  overflow: hidden;
+}
+.btn-gold::after {
+  content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.65), transparent);
+  transform: skewX(-18deg);
+  animation: shimmer 3.6s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,60%{left:-120%} 100%{left:140%} }
+.btn-gold:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 46px -10px var(--gold-glow); }
+.btn-gold:active { transform: translateY(0); }
+
+.btn-ghost {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.btn-ghost:hover { border-color: var(--gold); background: rgba(255,207,77,0.08); box-shadow: 0 0 0 1px rgba(255,207,77,0.2); }
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.005)), var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px -30px rgba(0,0,0,0.8);
+}
+
+.card-glow { position: relative; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.card-glow::before {
+  content: ""; position: absolute; inset: -1px; border-radius: 18px;
+  padding: 1px;
+  background: linear-gradient(130deg, transparent, var(--gold-glow), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .3s ease;
+}
+.card-glow:hover { transform: translateY(-3px); box-shadow: 0 26px 60px -28px rgba(255,207,77,0.35); }
+.card-glow:hover::before { opacity: 1; }
+
+.chip { border: 1px solid var(--line); background: rgba(255,255,255,0.04); border-radius: 999px; }
+
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent); }
+
+.count-box {
+  background: linear-gradient(180deg, var(--card-2), var(--bg-2));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.rank-1 {
+  border-color: rgba(255,207,77,0.6);
+  box-shadow: 0 0 0 1px rgba(255,207,77,0.28), 0 30px 70px -28px rgba(255,207,77,0.45);
+}
+.rank-2 { border-color: rgba(203,213,225,0.45); box-shadow: 0 24px 60px -34px rgba(203,213,225,0.25); }
+.rank-3 { border-color: rgba(230,173,51,0.5); box-shadow: 0 24px 60px -34px rgba(230,173,51,0.28); }
+
+.share-card {
+  background:
+    radial-gradient(600px 300px at 90% -20%, rgba(255,207,77,0.28), transparent 60%),
+    radial-gradient(500px 260px at 0% 120%, rgba(16,217,143,0.22), transparent 60%),
+    linear-gradient(160deg, #12213c, #05070e 72%);
+  border: 1px solid rgba(255,207,77,0.4);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.step-num {
+  background: linear-gradient(180deg, #ffe58f, var(--gold-2));
+  color: #17130a;
+  box-shadow: 0 6px 18px -6px var(--gold-glow);
+}
+
+.marquee { display: flex; gap: 3rem; white-space: nowrap; animation: scroll-x 28s linear infinite; }
+@keyframes scroll-x { from { transform: translateX(0);} to { transform: translateX(-50%);} }
+
+.modal-backdrop { background: rgba(2,4,9,0.75); backdrop-filter: blur(8px); }
+
+.input {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px; color: var(--text); outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,207,77,0.18); }
+.input::placeholder { color: #62708f; }
+
+.fade-up { animation: fadeUp .6s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px);} to {opacity:1; transform: translateY(0);} }
+
+.glow-dot { animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{ box-shadow: 0 0 0 3px rgba(16,217,143,0.18);} 50%{ box-shadow: 0 0 0 6px rgba(16,217,143,0.04);} }
+
+/* RTL */
+[dir="rtl"] body, body.rtl { font-family: "Vazirmatn", "Noto Sans Arabic", ui-sans-serif, system-ui, sans-serif; }
+[dir="rtl"] .marquee { animation-direction: reverse; }
+
+/* value stack pills */
+.vpill {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,207,77,0.07), rgba(255,207,77,0.02));
+  border-radius: 12px;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.vpill:hover { border-color: rgba(255,207,77,0.45); transform: translateY(-1px); }
+
+/* seats bar */
+.seats-track { background: var(--bg-2); border-radius: 999px; overflow: hidden; height: 8px; border: 1px solid var(--line); }
+.seats-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--gold)); border-radius: 999px; box-shadow: 0 0 12px var(--gold-glow); }
+
+/* schedule */
+.sched-row { border-left: 2px solid var(--gold); padding-left: .75rem; }
+[dir="rtl"] .sched-row { border-left: none; border-right: 2px solid var(--gold); padding-left: 0; padding-right: .75rem; }
+
+/* timeline */
+.tl-line { background: linear-gradient(90deg, var(--emerald), var(--gold)); box-shadow: 0 0 16px var(--gold-glow); }
+.tl-node { background: var(--bg-2); border: 2px solid var(--gold); box-shadow: 0 0 18px -4px var(--gold-glow); }
+
+/* level ladder */
+.lvl { border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent), var(--card); position: relative; transition: transform .15s ease, box-shadow .15s ease; }
+.lvl:hover { transform: translateY(-3px); }
+.lvl-legend { border-color: rgba(255,207,77,0.55); box-shadow: 0 0 0 1px rgba(255,207,77,0.25), 0 24px 56px -28px var(--gold-glow); }
+.lvl-bar { height: 6px; border-radius: 999px; background: var(--bg-2); overflow: hidden; }
+.lvl-bar > span { display:block; height:100%; background: linear-gradient(90deg, var(--emerald), var(--gold)); }
+
+/* live feed */
+.feed-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--emerald-2); box-shadow: 0 0 0 4px rgba(16,217,143,0.15); animation: pulse 2s ease-in-out infinite; }
+.feed-item { border-bottom: 1px solid var(--line); }
+.feed-item:last-child { border-bottom: none; }
+
+/* lang switcher */
+.lang-menu { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 20px 50px -20px rgba(0,0,0,0.9); }
+.lang-opt:hover { background: rgba(255,207,77,0.08); }
+
+</style>
+</head>
+<body class="min-h-dvh text-sm antialiased">
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-40 backdrop-blur border-b border-[var(--line)] bg-[rgba(7,10,18,0.75)]">
+    <nav class="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl grid place-items-center step-num font-black text-base">X</div>
+        <div class="leading-tight">
+          <div class="font-extrabold tracking-tight">Prop<span class="gold-text">XP</span></div>
+          <div class="text-[10px] text-[var(--muted)] -mt-0.5">Trader Championship</div>
+        </div>
+      </div>
+      <div class="hidden md:flex items-center gap-7 text-[var(--muted)] font-medium">
+        <a href="#prizes" class="hover:text-white transition" data-i18n="nav.prizes">Prizes</a>
+        <a href="#how" class="hover:text-white transition" data-i18n="nav.how">How it works</a>
+        <a href="#referral" class="hover:text-white transition" data-i18n="nav.ref">Refer & Earn</a>
+        <a href="#faq" class="hover:text-white transition" data-i18n="nav.faq">FAQ</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <!-- lang switcher -->
+        <div class="relative">
+          <button id="langBtn" class="btn-ghost px-3 py-2 rounded-xl text-xs flex items-center gap-1.5">
+            <span>🌐</span><span id="langCurrent">English</span><span class="text-[var(--muted)]">▾</span>
+          </button>
+          <div id="langMenu" class="lang-menu absolute right-0 mt-2 w-40 p-1.5 hidden z-50"></div>
+        </div>
+        <button data-join class="btn-gold px-4 py-2 rounded-xl text-sm" data-i18n="nav.join">Join Free</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-4 pt-10 pb-8 md:pt-14 md:pb-12 fade-up">
+      <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <!-- left -->
+        <div class="text-center lg:text-start">
+          <div class="inline-flex items-center gap-2 chip px-3 py-1.5 text-xs text-[var(--muted)] mb-4">
+            <span class="w-2 h-2 rounded-full bg-[var(--emerald-2)] glow-dot"></span>
+            <span data-i18n="hero.season">Season 1 · Registration Open</span>
+          </div>
+          <h1 class="text-4xl md:text-5xl xl:text-6xl font-black tracking-tight leading-[1.05]">
+            <span data-i18n="hero.h1a">Prove Your Skill.</span><br>
+            <span class="gold-text" data-i18n="hero.h1b">Earn Your Capital.</span>
+          </h1>
+          <p class="mt-4 text-base text-[var(--muted)] max-w-xl mx-auto lg:mx-0" data-i18n="hero.sub">The global trader league. Register free, trade your real skill, and compete for $1,000,000+ in funded capital opportunities.</p>
+
+          <!-- VALUE STACK above the fold -->
+          <div class="mt-5 grid grid-cols-2 gap-2.5 max-w-xl mx-auto lg:mx-0">
+            <div class="vpill px-3 py-2.5 flex items-center gap-2"><span class="text-[var(--emerald-2)]">✓</span><span class="font-semibold" data-i18n="hero.vp1">Free Championship entry</span></div>
+            <div class="vpill px-3 py-2.5 flex items-center gap-2"><span class="text-[var(--gold)]">◆</span><span class="font-semibold" data-i18n="hero.vp2">$30 Trading Wallet Credit</span></div>
+            <div class="vpill px-3 py-2.5 flex items-center gap-2"><span>🏆</span><span class="font-semibold" data-i18n="hero.vp3">Top 20 win funded accounts</span></div>
+            <div class="vpill px-3 py-2.5 flex items-center gap-2"><span>🤝</span><span class="font-semibold" data-i18n="hero.vp4">Invite friends & earn rewards</span></div>
+          </div>
+
+          <div class="mt-6 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+            <button data-join class="btn-gold px-7 py-3.5 rounded-xl text-base w-full sm:w-auto" data-i18n="hero.cta1">Create Your Free Account</button>
+            <a href="#prizes" class="btn-ghost px-7 py-3.5 rounded-xl text-base w-full sm:w-auto text-center" data-i18n="hero.cta2">See the Prizes</a>
+          </div>
+          <p class="mt-3 text-xs text-[var(--muted)] text-center lg:text-start" data-i18n="hero.micro">Free registration in under 60 seconds · Activate anytime</p>
+
+          <!-- seats -->
+          <div class="mt-5 max-w-md mx-auto lg:mx-0">
+            <div class="flex justify-between text-xs mb-1.5">
+              <span class="text-[var(--muted)]"><span id="seatsLeft" class="text-white font-bold">174</span> <span data-i18n="hero.seats">VIP seats left</span></span>
+              <span class="text-[var(--muted)]">826 / 1000</span>
+            </div>
+            <div class="seats-track"><div class="seats-fill" style="width:82.6%"></div></div>
+          </div>
+        </div>
+
+        <!-- right: schedule + countdown -->
+        <div class="card p-5 md:p-6 rank-1">
+          <div class="text-xs uppercase tracking-widest text-[var(--muted)] mb-1" data-i18n="sch.cdlabel">Registration closes in</div>
+          <div id="countdown" class="flex items-center gap-2 mb-5">
+            <div class="count-box px-3 py-2.5 flex-1 text-center"><div data-cd="d" class="text-2xl font-black gold-text">00</div><div class="text-[10px] text-[var(--muted)] mt-0.5" data-i18n="sch.d">DAYS</div></div>
+            <div class="count-box px-3 py-2.5 flex-1 text-center"><div data-cd="h" class="text-2xl font-black gold-text">00</div><div class="text-[10px] text-[var(--muted)] mt-0.5" data-i18n="sch.h">HRS</div></div>
+            <div class="count-box px-3 py-2.5 flex-1 text-center"><div data-cd="m" class="text-2xl font-black gold-text">00</div><div class="text-[10px] text-[var(--muted)] mt-0.5" data-i18n="sch.m">MIN</div></div>
+            <div class="count-box px-3 py-2.5 flex-1 text-center"><div data-cd="s" class="text-2xl font-black gold-text">00</div><div class="text-[10px] text-[var(--muted)] mt-0.5" data-i18n="sch.s">SEC</div></div>
+          </div>
+          <div class="divider mb-4"></div>
+          <div class="text-sm font-bold mb-3" data-i18n="sch.title">Season 1 Schedule</div>
+          <div class="space-y-3">
+            <div class="sched-row ps-3">
+              <div class="text-xs text-[var(--muted)]" data-i18n="sch.reg">Registration</div>
+              <div class="font-semibold" data-i18n="sch.regd">13 Sep – 13 Oct 2026</div>
+            </div>
+            <div class="sched-row ps-3">
+              <div class="text-xs text-[var(--muted)]" data-i18n="sch.comp">Championship</div>
+              <div class="font-semibold" data-i18n="sch.compd">13 Oct – 30 Oct 2026</div>
+            </div>
+            <div class="sched-row ps-3">
+              <div class="text-xs text-[var(--muted)]" data-i18n="sch.win">Winners announced</div>
+              <div class="font-semibold gold-text" data-i18n="sch.wind">31 Oct 2026 · Top 20 get funded</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL PROOF -->
+      <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="card px-4 py-4 text-center"><div class="text-2xl font-black gold-text">12,500+</div><div class="text-xs text-[var(--muted)] mt-1" data-i18n="sp.traders">Traders joined</div></div>
+        <div class="card px-4 py-4 text-center"><div class="text-2xl font-black gold-text">87</div><div class="text-xs text-[var(--muted)] mt-1" data-i18n="sp.countries">Countries</div></div>
+        <div class="card px-4 py-4 text-center"><div class="text-2xl font-black gold-text">1.8M</div><div class="text-xs text-[var(--muted)] mt-1" data-i18n="sp.trades">Trades completed</div></div>
+        <div class="card px-4 py-4 text-center"><div class="text-2xl font-black gold-text">$9.2M</div><div class="text-xs text-[var(--muted)] mt-1" data-i18n="sp.paid">Paid to traders</div></div>
+      </div>
+    </div>
+
+    <!-- marquee -->
+    <div class="border-y border-[var(--line)] py-3 overflow-hidden bg-[rgba(255,255,255,0.02)]">
+      <div class="marquee text-[var(--muted)] text-sm font-semibold">
+        <span>PROVE YOUR SKILL</span><span>·</span><span>EARN YOUR CAPITAL</span><span>·</span><span>JOIN THE GLOBAL TRADER LEAGUE</span><span>·</span><span>TRADE · COMPETE · WIN · GET FUNDED</span><span>·</span>
+        <span>PROVE YOUR SKILL</span><span>·</span><span>EARN YOUR CAPITAL</span><span>·</span><span>JOIN THE GLOBAL TRADER LEAGUE</span><span>·</span><span>TRADE · COMPETE · WIN · GET FUNDED</span><span>·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <h2 class="text-center text-xl md:text-2xl font-black mb-8" data-i18n="tl.title">How the season runs</h2>
+    <div class="relative">
+      <div class="hidden md:block absolute top-5 left-[12%] right-[12%] h-0.5 tl-line"></div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="text-center relative"><div class="tl-node w-10 h-10 rounded-full grid place-items-center mx-auto text-lg">📝</div><div class="mt-3 font-bold" data-i18n="tl.reg">Registration Open</div><div class="text-xs text-[var(--muted)]">18 Jul – 17 Aug</div></div>
+        <div class="text-center relative"><div class="tl-node w-10 h-10 rounded-full grid place-items-center mx-auto text-lg">📈</div><div class="mt-3 font-bold" data-i18n="tl.champ">Trading Championship</div><div class="text-xs text-[var(--muted)]">17 Aug – 30 Aug</div></div>
+        <div class="text-center relative"><div class="tl-node w-10 h-10 rounded-full grid place-items-center mx-auto text-lg">🏅</div><div class="mt-3 font-bold" data-i18n="tl.win">Top 20 Winners</div><div class="text-xs text-[var(--muted)]">31 Aug</div></div>
+        <div class="text-center relative"><div class="tl-node w-10 h-10 rounded-full grid place-items-center mx-auto text-lg">💰</div><div class="mt-3 font-bold" data-i18n="tl.fund">Funded Accounts</div><div class="text-xs text-[var(--muted)]">Within 7 days</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl md:text-3xl font-black" data-i18n="how.title">Join in three steps</h2>
+      <p class="text-[var(--muted)] mt-2" data-i18n="how.sub">A trader club, not a campaign. You're in in under a minute.</p>
+    </div>
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="card card-glow p-6">
+        <div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg step-num grid place-items-center font-black">1</div><div class="font-bold" data-i18n="how.s1t">Create your free account</div></div>
+        <p class="text-[var(--muted)]" data-i18n="how.s1b">Name, email, mobile & country. A quick OTP confirms you're a real trader — no heavy KYC.</p>
+      </div>
+      <div class="card card-glow p-6">
+        <div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg step-num grid place-items-center font-black">2</div><div class="font-bold" data-i18n="how.s2t">Activate your account</div></div>
+        <p class="text-[var(--muted)]" data-i18n="how.s2b">Add your $30 Trading Wallet Credit — it stays in your wallet as ecosystem value, redeemable across products.</p>
+      </div>
+      <div class="card card-glow p-6">
+        <div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg step-num grid place-items-center font-black">3</div><div class="font-bold" data-i18n="how.s3t">Trade & climb the board</div></div>
+        <p class="text-[var(--muted)]" data-i18n="how.s3b">Compete on the live leaderboard for 30 days. Highest risk-adjusted return wins funded capital.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDIT -->
+  <section class="mx-auto max-w-6xl px-4 pb-14">
+    <div class="grid gap-6 lg:grid-cols-2 items-center">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-black" data-i18n="cr.title">Not a fee. A trading wallet credit.</h2>
+        <p class="text-[var(--muted)] mt-3" data-i18n="cr.sub">Your $30 isn't spent — it becomes balance inside the PropXP ecosystem that you control.</p>
+        <ul class="mt-5 space-y-2.5">
+          <li class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="cr.u1">Toward any Challenge purchase</span></li>
+          <li class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="cr.u2">Account upgrade</span></li>
+          <li class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="cr.u3">Special trader offers</span></li>
+          <li class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="cr.u4">Championship benefits & education</span></li>
+        </ul>
+        <div class="mt-5 card p-4" style="border-color:rgba(16,217,143,0.45)"><p class="text-sm flex items-start gap-2"><span class="text-[var(--emerald-2)] font-bold">✓</span><span data-i18n="cr.guarantee">Even if you don't rank in the Top 20, your $30 converts into rewards and special discounts inside PropXP — you never lose it.</span></p></div>
+        <p class="mt-4 text-xs text-[var(--muted)]" data-i18n="cr.note">$30 Trading Wallet Credit — redeemable across eligible PropXP products and services. Non-refundable; does not expire during the active season.</p>
+      </div>
+      <div class="card p-6 md:p-8 rank-1">
+        <div class="flex items-center justify-between">
+          <div class="text-[var(--muted)] text-sm" data-i18n="cr.label">Trading Wallet Credit</div>
+          <div class="chip px-2.5 py-1 text-[10px] text-[var(--emerald-2)]">✓</div>
+        </div>
+        <div class="mt-2 text-5xl font-black gold-text">$30.00</div>
+        <div class="divider my-5"></div>
+        <div class="grid grid-cols-2 gap-3 text-center">
+          <div class="count-box py-3"><div class="text-lg font-bold">100%</div><div class="text-[10px] text-[var(--muted)]" data-i18n="cr.usable">Redeemable</div></div>
+          <div class="count-box py-3"><div class="text-lg font-bold">+100 XP</div><div class="text-[10px] text-[var(--muted)]" data-i18n="cr.xp">On activation</div></div>
+        </div>
+        <button data-join class="btn-gold w-full mt-6 py-3 rounded-xl" data-i18n="cr.cta">Create Account & Activate</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIZES -->
+  <section id="prizes" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="text-center mb-4">
+      <div class="chip inline-flex px-3 py-1 text-xs text-[var(--muted)] mb-4">Top 20 Winners</div>
+      <h2 class="text-2xl md:text-4xl font-black gold-text" data-i18n="pz.title">$1,000,000+ in trading capital</h2>
+      <p class="text-[var(--muted)] mt-2 max-w-2xl mx-auto" data-i18n="pz.sub">A real winner's pyramid — concentrated value at the top, meaningful rewards down to rank 20.</p>
+    </div>
+    <div class="grid gap-4 md:grid-cols-3 mt-8">
+      <div class="card p-6 rank-2 md:mt-8">
+        <div class="text-3xl">🥈</div><div class="mt-2 text-xs text-[var(--muted)]">Rank 2</div>
+        <div class="text-xl font-black">$100K Funded Account</div><div class="text-[var(--muted)] text-sm mt-1">+ VIP Trader Status</div>
+      </div>
+      <div class="card p-7 rank-1 relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 chip px-3 py-1 text-[10px] gold-text font-bold bg-[var(--bg-2)]" data-i18n="pz.gc">GRAND CHAMPION</div>
+        <div class="text-4xl">🏆</div><div class="mt-2 text-xs text-[var(--muted)]">Rank 1</div>
+        <div class="text-2xl font-black gold-text">$200K Funded Account</div>
+        <div class="text-[var(--muted)] text-sm mt-1">+ VIP Trader Status</div><div class="text-[var(--muted)] text-sm">+ 50% Challenge Discount</div>
+      </div>
+      <div class="card p-6 rank-3 md:mt-8">
+        <div class="text-3xl">🥉</div><div class="mt-2 text-xs text-[var(--muted)]">Rank 3</div>
+        <div class="text-xl font-black">$50K Funded Account</div><div class="text-[var(--muted)] text-sm mt-1">+ Elite badge</div>
+      </div>
+    </div>
+    <div class="grid gap-4 md:grid-cols-2 mt-4">
+      <div class="card p-6">
+        <div class="flex items-center justify-between mb-3"><div class="font-bold" data-i18n="pz.elite">Elite Winners</div><div class="chip px-2.5 py-1 text-[10px] text-[var(--muted)]">Ranks 4–10</div></div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between border-b border-[var(--line)] pb-2"><span class="text-[var(--muted)]">Ranks 4–5</span><span class="font-semibold">$100K Challenge Account</span></div>
+          <div class="flex justify-between border-b border-[var(--line)] pb-2"><span class="text-[var(--muted)]">Ranks 6–7</span><span class="font-semibold">$50K Challenge Account</span></div>
+          <div class="flex justify-between"><span class="text-[var(--muted)]">Ranks 8–10</span><span class="font-semibold">$25K Challenge Account</span></div>
+        </div>
+      </div>
+      <div class="card p-6">
+        <div class="flex items-center justify-between mb-3"><div class="font-bold" data-i18n="pz.rising">Rising Traders</div><div class="chip px-2.5 py-1 text-[10px] text-[var(--muted)]">Ranks 11–20</div></div>
+        <div class="text-sm text-[var(--muted)]" data-i18n="pz.risingeach">Each winner receives:</div>
+        <div class="mt-3 flex flex-col sm:flex-row gap-3">
+          <div class="count-box flex-1 py-4 text-center"><div class="text-lg font-black gold-text">$500</div><div class="text-[10px] text-[var(--muted)]">Trading Credit</div></div>
+          <div class="grid place-items-center text-[var(--muted)] text-xs">—</div>
+          <div class="count-box flex-1 py-4 text-center"><div class="text-lg font-black gold-text">$10K</div><div class="text-[10px] text-[var(--muted)]">Challenge Account</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="text-center text-[11px] text-[var(--muted)] mt-6 max-w-3xl mx-auto" data-i18n="pz.foot">Prize values reflect notional funded/challenge account sizes and profit-split opportunities, not cash payouts.</p>
+  </section>
+
+  <!-- COMPETITION RULES -->
+  <section id="rules-trading" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="text-center mb-8">
+      <div class="chip inline-flex px-3 py-1 text-xs text-[var(--muted)] mb-4">Fair & simple</div>
+      <h2 class="text-2xl md:text-3xl font-black" data-i18n="crules.title">Championship trading rules</h2>
+      <p class="text-[var(--muted)] mt-2 max-w-2xl mx-auto" data-i18n="crules.sub">Professional prop-firm standard — simple and transparent, no complex formulas.</p>
+    </div>
+    <div class="grid gap-4 grid-cols-2 lg:grid-cols-3">
+      <div class="card p-5"><div class="text-xs text-[var(--muted)]" data-i18n="crules.acc">Championship Account</div><div class="text-lg font-black gold-text mt-1" data-i18n="crules.accv">$100,000 Demo</div></div>
+      <div class="card p-5"><div class="text-xs text-[var(--muted)]" data-i18n="crules.daily">Max Daily Loss</div><div class="text-lg font-black mt-1" data-i18n="crules.dailyv">5%</div></div>
+      <div class="card p-5"><div class="text-xs text-[var(--muted)]" data-i18n="crules.overall">Max Overall Loss</div><div class="text-lg font-black mt-1" data-i18n="crules.overallv">10%</div></div>
+      <div class="card p-5"><div class="text-xs text-[var(--muted)]" data-i18n="crules.period">Trading Period</div><div class="text-lg font-black mt-1" data-i18n="crules.periodv">14 days</div></div>
+      <div class="card p-5"><div class="text-xs text-[var(--muted)]" data-i18n="crules.rank">Winner Ranking</div><div class="text-sm font-bold mt-1" data-i18n="crules.rankv">Highest % return within risk limits</div></div>
+      <div class="card p-5"><div class="text-xs text-[var(--muted)]" data-i18n="crules.markets">Allowed Markets</div><div class="text-sm font-bold mt-1" data-i18n="crules.marketsv">Forex · Gold · Indices · Commodities · Crypto</div></div>
+    </div>
+    <div class="card p-6 mt-4">
+      <div class="font-bold mb-3" data-i18n="crules.pol">Trading policies</div>
+      <div class="grid gap-2.5 sm:grid-cols-2">
+        <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="crules.p1">Scalping allowed</span></div>
+        <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="crules.p2">News trading allowed (standard execution; no latency abuse)</span></div>
+        <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="crules.p3">Weekend holding allowed (gap risk applies)</span></div>
+        <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">✓</span> <span data-i18n="crules.p4">No minimum trading days · no complex scoring formulas</span></div>
+        <div class="flex items-center gap-3"><span class="text-[var(--gold)]">⚠</span> <span data-i18n="crules.p5">Expert Advisors / trading bots: restricted (per PropXP rules)</span></div>
+        <div class="flex items-center gap-3"><span class="text-[var(--gold)]">⚠</span> <span data-i18n="crules.p6">Copy trading: restricted</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERRAL + SHARE -->
+  <section id="referral" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="card p-6 md:p-8">
+        <h2 class="text-2xl font-black" data-i18n="rf.title">Grow your trading wallet</h2>
+        <p class="text-[var(--muted)] mt-2" data-i18n="rf.sub">Invite friends · Earn credits · Unlock discounts. When a friend activates and makes their first real trade, you both get a bonus.</p>
+        <div class="mt-5 count-box p-4 flex items-center justify-between">
+          <div><div class="text-[10px] text-[var(--muted)]" data-i18n="rf.codelabel">Your Trader Code</div><div id="referralCode" class="text-2xl font-black tracking-widest gold-text">HJX2026</div></div>
+          <button data-copy="referralCode" class="btn-ghost px-4 py-2 rounded-lg text-sm" data-i18n="rf.copy">Copy</button>
+        </div>
+        <div class="mt-4 grid grid-cols-2 gap-3 text-center">
+          <div class="count-box py-4"><div class="text-lg font-black gold-text">+$10</div><div class="text-[10px] text-[var(--muted)]">You</div></div>
+          <div class="count-box py-4"><div class="text-lg font-black gold-text">+$10</div><div class="text-[10px] text-[var(--muted)]">Your friend</div></div>
+        </div>
+        <p class="mt-4 text-xs text-[var(--muted)]" data-i18n="rf.note">Bonus is wallet credit (non-withdrawable) that lowers the cost of Challenges, upgrades & education. Fair-use capped per verified profile.</p>
+      </div>
+      <div class="card p-6 md:p-8">
+        <div class="flex items-center justify-between mb-4"><h2 class="text-2xl font-black" data-i18n="rf.share">One-tap share</h2><div class="chip px-2.5 py-1 text-[10px] text-[var(--muted)]" data-i18n="rf.sharetag">Auto-generated</div></div>
+        <div class="share-card p-6">
+          <div class="text-xs text-[var(--muted)]">PropXP Trader Championship</div>
+          <div class="mt-2 text-xl font-black leading-snug">I joined the PropXP<br>Trader Championship 🏆</div>
+          <div class="mt-3 gold-text font-black text-lg">$200,000+ funded prizes</div>
+          <div class="text-[var(--muted)] text-sm mt-1">Can you beat my trading skills?</div>
+          <div class="mt-4 chip inline-flex px-3 py-1.5 text-xs">Join me: propxp.io/join/<span id="shareCode" class="gold-text font-bold ms-1">HJX2026</span></div>
+        </div>
+        <button data-copy-invite class="btn-gold w-full py-3 rounded-xl mt-4">Copy my invite message</button>
+        <div class="mt-3 text-[10px] uppercase tracking-widest text-[var(--muted)] text-center">Join the official community</div>
+        <div class="mt-2 grid grid-cols-3 gap-2">
+          <button data-share="ig" class="btn-ghost py-2.5 rounded-lg text-sm">Instagram</button>
+          <button data-share="wa" class="btn-ghost py-2.5 rounded-lg text-sm">WhatsApp</button>
+          <button data-share="tg" class="btn-ghost py-2.5 rounded-lg text-sm">Telegram</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- XP LEVEL LADDER -->
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <div class="text-center mb-8">
+      <div class="chip inline-flex px-3 py-1 text-xs text-[var(--muted)] mb-4">Loyalty · PropXP Score</div>
+      <h2 class="text-2xl md:text-3xl font-black" data-i18n="xp.title">Every action earns XP</h2>
+      <p class="text-[var(--muted)] mt-2 max-w-2xl mx-auto" data-i18n="xp.sub">Your PropXP Score is your trader reputation — climb the levels to unlock real benefits.</p>
+    </div>
+    <div class="grid gap-4 md:grid-cols-4">
+      <div class="lvl p-5"><div class="flex items-center justify-between"><div class="font-bold">Lv.1 · <span data-i18n="xp.l1">Rookie</span></div><span class="text-[var(--muted)] text-xs">0 XP</span></div><div class="lvl-bar mt-3"><span style="width:100%"></span></div><p class="text-xs text-[var(--muted)] mt-3" data-i18n="xp.l1b">Community access · Share Card</p></div>
+      <div class="lvl p-5"><div class="flex items-center justify-between"><div class="font-bold">Lv.2 · <span data-i18n="xp.l2">Pro</span></div><span class="text-[var(--muted)] text-xs">1,000 XP</span></div><div class="lvl-bar mt-3"><span style="width:60%"></span></div><p class="text-xs text-[var(--muted)] mt-3" data-i18n="xp.l2b">Challenge discount · Faster support</p></div>
+      <div class="lvl p-5"><div class="flex items-center justify-between"><div class="font-bold">Lv.3 · <span data-i18n="xp.l3">Elite</span></div><span class="text-[var(--muted)] text-xs">3,000 XP</span></div><div class="lvl-bar mt-3"><span style="width:35%"></span></div><p class="text-xs text-[var(--muted)] mt-3" data-i18n="xp.l3b">VIP community · Bigger referral rewards</p></div>
+      <div class="lvl lvl-legend p-5"><div class="flex items-center justify-between"><div class="font-bold gold-text">Lv.4 · <span data-i18n="xp.l4">Legend</span></div><span class="text-[var(--muted)] text-xs">7,500 XP</span></div><div class="lvl-bar mt-3"><span style="width:15%"></span></div><p class="text-xs text-[var(--muted)] mt-3" data-i18n="xp.l4b">Early access · Top status · Best pricing</p></div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY LIVE FEED -->
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 chip px-3 py-1.5 text-xs text-[var(--muted)] mb-3"><span class="feed-dot"></span> LIVE</div>
+      <h2 class="text-2xl md:text-3xl font-black" data-i18n="cm.title">A living trader community</h2>
+      <p class="text-[var(--muted)] mt-2" data-i18n="cm.sub">Real activity, every day.</p>
+    </div>
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div class="card p-5"><div class="font-bold mb-3 text-sm" data-i18n="cm.top">Today's Top Traders</div><div id="feedTop" class="space-y-2.5"></div></div>
+      <div class="card p-5"><div class="font-bold mb-3 text-sm" data-i18n="cm.win">Latest Winners</div><div id="feedWin" class="space-y-2.5"></div></div>
+      <div class="card p-5"><div class="font-bold mb-3 text-sm" data-i18n="cm.reg">Recent Registrations</div><div id="feedReg" class="space-y-2.5"></div></div>
+      <div class="card p-5"><div class="font-bold mb-3 text-sm" data-i18n="cm.reward">Recent Rewards</div><div id="feedReward" class="space-y-2.5"></div></div>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="card p-6 md:p-8">
+        <h2 class="text-2xl font-black" data-i18n="ru.stitle">Season structure</h2>
+        <div class="mt-4 space-y-3">
+          <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">●</span> <span><span class="font-semibold">Season 1</span> · 17–30 Aug 2026</span></div>
+          <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">●</span> One championship account per verified profile</div>
+          <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">●</span> Live public leaderboard, updated daily</div>
+          <div class="flex items-center gap-3"><span class="text-[var(--emerald-2)]">●</span> Ranked by highest return with controlled risk</div>
+        </div>
+      </div>
+      <div class="card p-6 md:p-8">
+        <h2 class="text-2xl font-black" data-i18n="ru.rtitle">Simple, transparent rules</h2>
+        <div class="mt-4 space-y-3 text-[var(--muted)]">
+          <div class="flex items-center gap-3"><span class="text-[var(--gold)]">✓</span> Clear trading conditions, no fine print</div>
+          <div class="flex items-center gap-3"><span class="text-[var(--gold)]">✓</span> Risk-adjusted scoring — skill, not gambling on size</div>
+          <div class="flex items-center gap-3"><span class="text-[var(--gold)]">✓</span> Suspicious trades reviewed before payout</div>
+          <div class="flex items-center gap-3"><span class="text-[var(--gold)]">✓</span> Rewards tied to one verified profile (anti-abuse)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXISTING TRADER -->
+  <section class="mx-auto max-w-6xl px-4 pb-14">
+    <div class="card p-6 md:p-10 text-center rank-1">
+      <div class="chip inline-flex px-3 py-1 text-xs text-[var(--emerald-2)] mb-4" data-i18n="ex.note">Already a PropXP Trader?</div>
+      <h2 class="text-2xl md:text-3xl font-black" data-i18n="ex.title">Unlock your Elite Trader Benefits</h2>
+      <p class="text-[var(--muted)] mt-2 max-w-xl mx-auto" data-i18n="ex.sub">Already have a PropXP account? Activate your Championship benefits with the email you prefer to use — carry over your history, no starting from zero.</p>
+      <div class="mt-6 grid gap-3 sm:grid-cols-4 max-w-3xl mx-auto">
+        <div class="count-box py-4"><div class="font-bold gold-text">Legacy XP</div></div>
+        <div class="count-box py-4"><div class="font-bold gold-text">Special discount</div></div>
+        <div class="count-box py-4"><div class="font-bold gold-text">Social rank</div></div>
+        <div class="count-box py-4"><div class="font-bold gold-text">Season access</div></div>
+      </div>
+      <button data-join class="btn-gold px-7 py-3 rounded-xl mt-7" data-i18n="ex.cta">Activate My Benefits</button>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="mx-auto max-w-3xl px-4 py-14">
+    <h2 class="text-2xl md:text-3xl font-black text-center mb-8" data-i18n="fq.title">Questions, answered</h2>
+    <div class="space-y-3" id="faqList"></div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="mx-auto max-w-6xl px-4 pb-20">
+    <div class="card p-8 md:p-12 text-center">
+      <h2 class="text-3xl md:text-5xl font-black leading-tight"><span data-i18n="fc.h1">Trade. Compete. Win.</span><br><span class="gold-text" data-i18n="fc.h2">Get Funded.</span></h2>
+      <p class="text-[var(--muted)] mt-4 max-w-xl mx-auto" data-i18n="fc.sub">The next Grand Champion starts with one profile. Yours could be next.</p>
+      <button data-join class="btn-gold px-8 py-4 rounded-xl text-base mt-7" data-i18n="fc.cta">Create Your Free Account</button>
+      <p class="mt-3 text-xs text-[var(--muted)]" data-i18n="fc.micro">Under 60 seconds · $30 activates your wallet · No history required</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-[var(--line)]">
+    <div class="mx-auto max-w-6xl px-4 py-10 text-center text-xs text-[var(--muted)] space-y-3">
+      <div class="font-bold text-white">Prop<span class="gold-text">XP</span></div>
+      <div data-i18n="ft.partner">Powered by Global Trader Network · Official PropXP Partner</div>
+      <p class="max-w-3xl mx-auto" data-i18n="ft.disc">Trading involves substantial risk. The PropXP Trader Championship is a skill-based evaluation program; prizes reflect notional funded/challenge account sizes and profit-split opportunities, not guaranteed cash. Identity verification is only required before funded account activation or prize delivery.</p>
+      <div class="flex items-center justify-center gap-5"><a href="#" class="hover:text-white">Terms</a><a href="#" class="hover:text-white">Privacy</a><a href="#" class="hover:text-white">Contact</a></div>
+    </div>
+  </footer>
+
+  <!-- JOIN MODAL -->
+  <div id="joinModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+    <div class="card w-full max-w-md p-6 md:p-7 fade-up">
+      <div class="flex items-center justify-between mb-1">
+        <h3 class="text-xl font-black" data-i18n="md.title">Create Your Free Account</h3>
+        <button data-close class="text-[var(--muted)] hover:text-white text-xl leading-none">×</button>
+      </div>
+      <p class="text-[var(--muted)] text-sm mb-5" data-i18n="md.sub">You're entering PropXP's biggest skill competition. Build your rank with real performance.</p>
+      <div id="joinForm" class="space-y-3">
+        <input class="input w-full px-4 py-3" placeholder="Full name" data-f="name">
+        <input class="input w-full px-4 py-3" placeholder="Email address" type="email" data-f="email">
+        <input class="input w-full px-4 py-3" placeholder="Mobile number" data-f="phone">
+        <select class="input w-full px-4 py-3" data-f="country">
+          <option value="">Select country</option>
+          <option>United Arab Emirates</option><option>Iran</option><option>Turkey</option><option>Saudi Arabia</option><option>United Kingdom</option><option>India</option><option>Russia</option><option>China</option><option>Other</option>
+        </select>
+        <button data-submit class="btn-gold w-full py-3.5 rounded-xl mt-1" data-i18n="md.submit">Create my free account</button>
+        <p class="text-[11px] text-[var(--muted)] text-center" data-i18n="md.note">Light OTP verification confirms a real trader. Identity verification is only required before funded account activation or prize delivery.</p>
+      </div>
+      <div id="joinSuccess" class="hidden text-center py-4">
+        <div class="text-4xl">🎉</div>
+        <div class="text-lg font-black mt-2 gold-text" data-i18n="md.success">You're registered! (+100 XP)</div>
+        <p class="text-[var(--muted)] text-sm mt-1" data-i18n="md.saved">Your details are saved — you won't lose your spot.</p>
+        <p class="text-[var(--muted)] text-sm mt-3" data-i18n="md.codelabel">Your personal Trader Code:</p>
+        <div class="count-box mt-2 p-4 flex items-center justify-between">
+          <div id="newCode" class="text-2xl font-black tracking-widest gold-text">—</div>
+          <button data-copy="newCode" class="btn-ghost px-4 py-2 rounded-lg text-sm">Copy</button>
+        </div>
+        <button data-redirect class="btn-gold w-full py-3.5 rounded-xl mt-4" data-i18n="md.redirect">Activate on PropXP →</button>
+        <button data-close class="btn-ghost w-full py-2.5 rounded-xl mt-2 text-sm" data-i18n="md.later">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[60] hidden card px-4 py-2.5 text-sm"></div>
+
+  <script>
+// PropXP Championship — i18n dictionary
+// RTL languages: fa, ar. Engine falls back to EN for any missing key.
+window.RTL_LANGS = ["fa", "ar"];
+window.LANG_LABELS = { en: "English", fa: "فارسی", ar: "العربية", tr: "Türkçe" };
+
+window.I18N = {
+  en: {
+    "nav.prizes": "Prizes", "nav.how": "How it works", "nav.ref": "Refer & Earn", "nav.faq": "FAQ", "nav.join": "Join Free",
+    "hero.powered": "Powered by Global Trader Network · Official PropXP Partner",
+    "hero.season": "Season 1 · Registration Open",
+    "hero.h1a": "Prove Your Skill.", "hero.h1b": "Earn Your Capital.",
+    "hero.sub": "The global trader league. Register free, trade your real skill, and compete for $1,000,000+ in funded capital opportunities.",
+    "hero.vp1": "Free Championship entry", "hero.vp2": "$30 Trading Wallet Credit", "hero.vp3": "Top 20 win funded accounts", "hero.vp4": "Invite friends & earn rewards",
+    "hero.cta1": "Create Your Free Account", "hero.cta2": "See the Prizes",
+    "hero.micro": "Free registration in under 60 seconds · Activate anytime",
+    "hero.seats": "VIP seats left",
+    "sch.title": "Season 1 Schedule",
+    "sch.reg": "Registration", "sch.regd": "18 Jul – 17 Aug 2026",
+    "sch.comp": "Championship", "sch.compd": "17 Aug – 30 Aug 2026",
+    "sch.win": "Winners announced", "sch.wind": "31 Aug 2026 · Top 20 get funded",
+    "sch.cdlabel": "Registration closes in", "sch.d": "DAYS", "sch.h": "HRS", "sch.m": "MIN", "sch.s": "SEC",
+    "sp.traders": "Traders joined", "sp.countries": "Countries", "sp.trades": "Trades completed", "sp.paid": "Paid to traders",
+    "tl.title": "How the season runs", "tl.reg": "Registration Open", "tl.champ": "Trading Championship", "tl.win": "Top 20 Winners", "tl.fund": "Funded Accounts",
+    "how.title": "Join in three steps", "how.sub": "A trader club, not a campaign. You're in in under a minute.",
+    "how.s1t": "Create your free account", "how.s1b": "Name, email, mobile & country. A quick OTP confirms you're a real trader — no heavy KYC.",
+    "how.s2t": "Activate your account", "how.s2b": "Add your $30 Trading Wallet Credit — it stays in your wallet as ecosystem value, redeemable across products.",
+    "how.s3t": "Trade & climb the board", "how.s3b": "Compete on the live leaderboard throughout the season. Highest risk-adjusted return wins funded capital.",
+    "cr.title": "Not a fee. A trading wallet credit.",
+    "cr.sub": "Your $30 isn't spent — it becomes balance inside the PropXP ecosystem that you control.",
+    "cr.u1": "Toward any Challenge purchase", "cr.u2": "Account upgrade", "cr.u3": "Special trader offers", "cr.u4": "Championship benefits & education",
+    "cr.note": "$30 Trading Wallet Credit — redeemable across eligible PropXP products and services. Non-refundable; does not expire during the active season.",
+    "cr.label": "Trading Wallet Credit", "cr.usable": "Redeemable", "cr.xp": "On activation", "cr.cta": "Create Account & Activate",
+    "pz.title": "$1,000,000+ in trading capital", "pz.sub": "A real winner's pyramid — concentrated value at the top, meaningful rewards down to rank 20.",
+    "pz.gc": "GRAND CHAMPION", "pz.foot": "Prize values reflect notional funded/challenge account sizes and profit-split opportunities, not cash payouts. Winners are determined by verified, risk-adjusted trading performance under transparent rules.",
+    "pz.elite": "Elite Winners", "pz.rising": "Rising Traders", "pz.risingeach": "Each winner receives:",
+    "rf.title": "Grow your trading wallet", "rf.sub": "Invite friends · Earn credits · Unlock discounts. When a friend activates and makes their first real trade, you both get a bonus.",
+    "rf.codelabel": "Your Trader Code", "rf.copy": "Copy",
+    "rf.note": "Bonus is wallet credit (non-withdrawable) that lowers the cost of Challenges, upgrades & education. Fair-use capped per verified profile.",
+    "rf.share": "One-tap share", "rf.sharetag": "Auto-generated",
+    "xp.title": "Every action earns XP", "xp.sub": "Your PropXP Score is your trader reputation — climb the levels to unlock real benefits.",
+    "xp.l1": "Rookie", "xp.l1b": "Community access · Share Card", "xp.l2": "Pro", "xp.l2b": "Challenge discount · Faster support",
+    "xp.l3": "Elite", "xp.l3b": "VIP community · Bigger referral rewards", "xp.l4": "Legend", "xp.l4b": "Early access · Top status · Best pricing",
+    "cm.title": "A living trader community", "cm.sub": "Real activity, every day.",
+    "cm.top": "Today's Top Traders", "cm.win": "Latest Winners", "cm.reg": "Recent Registrations", "cm.reward": "Recent Rewards",
+    "ru.stitle": "Season structure", "ru.rtitle": "Simple, transparent rules",
+    "ex.title": "Unlock your Elite Trader Benefits", "ex.sub": "Already have a PropXP account? Activate your Championship benefits with the email you prefer to use — carry over your history, no starting from zero.",
+    "ex.cta": "Activate My Benefits", "ex.note": "Already a PropXP Trader?",
+    "fq.title": "Questions, answered",
+    "fc.h1": "Trade. Compete. Win.", "fc.h2": "Get Funded.", "fc.sub": "The next Grand Champion starts with one profile. Yours could be next.",
+    "fc.cta": "Create Your Free Account", "fc.micro": "Under 60 seconds · $30 activates your wallet · No history required",
+    "ft.partner": "Powered by Global Trader Network · Official PropXP Partner",
+    "ft.disc": "Trading involves substantial risk. The PropXP Trader Championship is a skill-based evaluation program; prizes reflect notional funded/challenge account sizes and profit-split opportunities, not guaranteed cash. Identity verification is only required before funded account activation or prize delivery. Participation subject to program terms and regional eligibility.",
+    "md.title": "Create Your Free Account", "md.sub": "You're entering PropXP's biggest skill competition. Build your rank with real performance.",
+    "md.submit": "Create my free account", "md.note": "Light OTP verification confirms a real trader. Identity verification is only required before funded account activation or prize delivery."
+  },
+
+  fa: {
+    "nav.prizes": "جوایز", "nav.how": "چطور کار می‌کند", "nav.ref": "دعوت و پاداش", "nav.faq": "سوالات", "nav.join": "ثبت‌نام رایگان",
+    "hero.powered": "زیرمجموعهٔ Global Trader Network · شریک رسمی PropXP",
+    "hero.season": "فصل ۱ · ثبت‌نام باز است",
+    "hero.h1a": "مهارتت را ثابت کن.", "hero.h1b": "سرمایه‌ات را به دست بیاور.",
+    "hero.sub": "لیگ جهانی معامله‌گران. رایگان ثبت‌نام کن، با مهارت واقعی خودت معامله کن و برای بیش از ۱٬۰۰۰٬۰۰۰ دلار فرصت سرمایهٔ Funded رقابت کن.",
+    "hero.vp1": "ورود رایگان به مسابقه", "hero.vp2": "۳۰ دلار اعتبار کیف پول", "hero.vp3": "۲۰ نفر برتر حساب Funded می‌گیرند", "hero.vp4": "دوستانت را دعوت کن و پاداش بگیر",
+    "hero.cta1": "ساخت حساب رایگان", "hero.cta2": "دیدن جوایز",
+    "hero.micro": "ثبت‌نام رایگان در کمتر از ۶۰ ثانیه · فعال‌سازی در هر زمان",
+    "hero.seats": "صندلی VIP باقی‌مانده",
+    "sch.title": "برنامهٔ فصل ۱",
+    "sch.reg": "ثبت‌نام", "sch.regd": "۲۷ تیر – ۲۶ مرداد ۱۴۰۵",
+    "sch.comp": "مسابقه", "sch.compd": "۲۶ مرداد – ۸ شهریور ۱۴۰۵",
+    "sch.win": "اعلام برندگان", "sch.wind": "۹ شهریور ۱۴۰۵ · ۲۰ نفر برتر Funded می‌شوند",
+    "sch.cdlabel": "پایان ثبت‌نام تا:", "sch.d": "روز", "sch.h": "ساعت", "sch.m": "دقیقه", "sch.s": "ثانیه",
+    "sp.traders": "معامله‌گر عضو شده", "sp.countries": "کشور", "sp.trades": "معاملهٔ انجام‌شده", "sp.paid": "پرداخت‌شده به معامله‌گران",
+    "tl.title": "مسیر فصل چگونه است", "tl.reg": "ثبت‌نام باز", "tl.champ": "مسابقهٔ معاملاتی", "tl.win": "۲۰ نفر برتر", "tl.fund": "حساب‌های Funded",
+    "how.title": "در سه قدم عضو شو", "how.sub": "یک باشگاه تریدرها، نه یک کمپین تبلیغاتی. کمتر از یک دقیقه.",
+    "how.s1t": "حساب رایگانت را بساز", "how.s1b": "نام، ایمیل، موبایل و کشور. یک تأیید سریع (OTP) نشان می‌دهد یک تریدر واقعی هستی — بدون KYC سنگین.",
+    "how.s2t": "حسابت را فعال کن", "how.s2b": "۳۰ دلار اعتبار کیف پول اضافه کن — داخل کیف پول تو می‌ماند و روی محصولات قابل استفاده است.",
+    "how.s3t": "معامله کن و در جدول بالا برو", "how.s3b": "در طول فصل در لیدربورد زنده رقابت کن. بیشترین بازده با کنترل ریسک، برندهٔ سرمایه می‌شود.",
+    "cr.title": "هزینه نیست. اعتبار کیف پول معاملاتی است.",
+    "cr.sub": "۳۰ دلار تو خرج نمی‌شود — تبدیل به موجودی داخل اکوسیستم PropXP می‌شود که خودت کنترلش می‌کنی.",
+    "cr.u1": "برای خرید هر Challenge", "cr.u2": "ارتقای حساب", "cr.u3": "پیشنهادهای ویژهٔ تریدرها", "cr.u4": "مزایای مسابقه و آموزش",
+    "cr.note": "۳۰ دلار اعتبار کیف پول — قابل استفاده روی محصولات و خدمات واجد شرایط PropXP. غیرقابل بازگشت؛ در طول فصل فعال منقضی نمی‌شود.",
+    "cr.label": "اعتبار کیف پول", "cr.usable": "قابل استفاده", "cr.xp": "هنگام فعال‌سازی", "cr.cta": "ساخت حساب و فعال‌سازی",
+    "pz.title": "بیش از ۱٬۰۰۰٬۰۰۰ دلار سرمایهٔ معاملاتی", "pz.sub": "یک هرم واقعی برندگان — ارزش متمرکز در بالا و پاداش‌های معنادار تا رتبهٔ ۲۰.",
+    "pz.gc": "قهرمان بزرگ", "pz.foot": "ارزش جوایز نشان‌دهندهٔ اندازهٔ اسمی حساب‌های Funded/Challenge و فرصت‌های تقسیم سود است، نه پرداخت نقدی. برندگان بر اساس عملکرد تأییدشده و متناسب با ریسک و طبق قوانین شفاف تعیین می‌شوند.",
+    "pz.elite": "برندگان Elite", "pz.rising": "تریدرهای در حال رشد", "pz.risingeach": "هر برنده دریافت می‌کند:",
+    "rf.title": "کیف پول معاملاتی‌ات را بزرگ کن", "rf.sub": "دوستانت را دعوت کن · اعتبار بگیر · تخفیف باز کن. وقتی دوستت فعال شود و اولین معاملهٔ واقعی‌اش را انجام دهد، هر دو پاداش می‌گیرید.",
+    "rf.codelabel": "کد تریدر تو", "rf.copy": "کپی",
+    "rf.note": "پاداش، اعتبار کیف پول است (غیرقابل برداشت) که هزینهٔ Challenge، ارتقا و آموزش را کم می‌کند. سقف منصفانه برای هر پروفایل تأییدشده.",
+    "rf.share": "اشتراک‌گذاری با یک لمس", "rf.sharetag": "خودکار ساخته می‌شود",
+    "xp.title": "هر فعالیت XP می‌دهد", "xp.sub": "امتیاز PropXP اعتبار تریدری توست — با بالا رفتن سطح، مزایای واقعی باز می‌شود.",
+    "xp.l1": "تازه‌کار", "xp.l1b": "دسترسی به جامعه · کارت اشتراک‌گذاری", "xp.l2": "حرفه‌ای", "xp.l2b": "تخفیف Challenge · پشتیبانی سریع‌تر",
+    "xp.l3": "نخبه", "xp.l3b": "جامعهٔ VIP · پاداش دعوت بیشتر", "xp.l4": "افسانه", "xp.l4b": "دسترسی زودهنگام · بالاترین جایگاه · بهترین قیمت",
+    "cm.title": "یک جامعهٔ زندهٔ تریدرها", "cm.sub": "فعالیت واقعی، هر روز.",
+    "cm.top": "تریدرهای برتر امروز", "cm.win": "آخرین برندگان", "cm.reg": "ثبت‌نام‌های اخیر", "cm.reward": "پاداش‌های اخیر",
+    "ru.stitle": "ساختار فصل", "ru.rtitle": "قوانین ساده و شفاف",
+    "ex.title": "مزایای تریدر Elite‌ات را باز کن", "ex.sub": "از قبل حساب PropXP داری؟ مزایای مسابقه را با همان ایمیلی که ترجیح می‌دهی فعال کن — سابقه‌ات منتقل می‌شود، از صفر شروع نمی‌کنی.",
+    "ex.cta": "فعال‌سازی مزایای من", "ex.note": "از قبل تریدر PropXP هستی؟",
+    "fq.title": "پاسخ سوالات",
+    "fc.h1": "معامله کن. رقابت کن. ببر.", "fc.h2": "Funded شو.", "fc.sub": "قهرمان بزرگ بعدی با یک پروفایل شروع می‌شود. شاید تو باشی.",
+    "fc.cta": "ساخت حساب رایگان", "fc.micro": "کمتر از ۶۰ ثانیه · ۳۰ دلار کیف پولت را فعال می‌کند · بدون نیاز به سابقه",
+    "ft.partner": "زیرمجموعهٔ Global Trader Network · شریک رسمی PropXP",
+    "ft.disc": "معامله ریسک زیادی دارد. مسابقهٔ PropXP یک برنامهٔ ارزیابی مبتنی بر مهارت است؛ جوایز نشان‌دهندهٔ اندازهٔ اسمی حساب‌های Funded/Challenge و فرصت‌های تقسیم سود هستند، نه پول نقد تضمین‌شده. احراز هویت فقط پیش از فعال‌سازی حساب Funded یا تحویل جایزه لازم است. شرکت مشروط به قوانین برنامه و شرایط منطقه‌ای است.",
+    "md.title": "ساخت حساب رایگان", "md.sub": "وارد بزرگ‌ترین رقابت مهارتی PropXP می‌شوی. رتبه‌ات را با عملکرد واقعی بساز.",
+    "md.submit": "ساخت حساب رایگان من", "md.note": "تأیید سبک OTP نشان می‌دهد یک تریدر واقعی هستی. احراز هویت فقط پیش از فعال‌سازی حساب Funded یا تحویل جایزه لازم است."
+  },
+
+  ar: {
+    "nav.prizes": "الجوائز", "nav.how": "كيف يعمل", "nav.ref": "ادعُ واربح", "nav.faq": "الأسئلة", "nav.join": "انضم مجاناً",
+    "hero.powered": "بدعم من Global Trader Network · شريك رسمي لـ PropXP",
+    "hero.season": "الموسم 1 · التسجيل مفتوح",
+    "hero.h1a": "أثبت مهارتك.", "hero.h1b": "اكسب رأس مالك.",
+    "hero.sub": "دوري المتداولين العالمي. سجّل مجاناً، تداول بمهارتك الحقيقية، ونافس على فرص تمويل تتجاوز 1,000,000 دولار.",
+    "hero.vp1": "دخول مجاني للبطولة", "hero.vp2": "رصيد محفظة 30 دولاراً", "hero.vp3": "أفضل 20 يفوزون بحسابات ممولة", "hero.vp4": "ادعُ أصدقاءك واربح مكافآت",
+    "hero.cta1": "أنشئ حسابك المجاني", "hero.cta2": "شاهد الجوائز",
+    "hero.micro": "تسجيل مجاني في أقل من 60 ثانية · فعّل في أي وقت",
+    "hero.seats": "مقاعد VIP متبقية",
+    "sch.title": "جدول الموسم 1",
+    "sch.reg": "التسجيل", "sch.regd": "18 يوليو – 17 أغسطس 2026",
+    "sch.comp": "البطولة", "sch.compd": "17 أغسطس – 30 أغسطس 2026",
+    "sch.win": "إعلان الفائزين", "sch.wind": "31 أغسطس 2026 · أفضل 20 يُموَّلون",
+    "sch.cdlabel": "ينتهي التسجيل خلال:", "sch.d": "يوم", "sch.h": "ساعة", "sch.m": "دقيقة", "sch.s": "ثانية",
+    "sp.traders": "متداول انضم", "sp.countries": "دولة", "sp.trades": "صفقة مُنفّذة", "sp.paid": "مدفوع للمتداولين",
+    "tl.title": "كيف يسير الموسم", "tl.reg": "التسجيل مفتوح", "tl.champ": "بطولة التداول", "tl.win": "أفضل 20 فائزاً", "tl.fund": "حسابات ممولة",
+    "how.title": "انضم في ثلاث خطوات", "how.sub": "نادٍ للمتداولين، وليس حملة إعلانية. أنت جاهز في أقل من دقيقة.",
+    "how.s1t": "أنشئ حسابك المجاني", "how.s1b": "الاسم والبريد والجوال والدولة. تأكيد سريع (OTP) يثبت أنك متداول حقيقي — دون تحقق ثقيل.",
+    "how.s2t": "فعّل حسابك", "how.s2b": "أضف رصيد محفظتك البالغ 30 دولاراً — يبقى في محفظتك كقيمة داخل المنظومة، قابل للاستخدام عبر المنتجات.",
+    "how.s3t": "تداول وتصدّر القائمة", "how.s3b": "نافس على لوحة الصدارة المباشرة طوال الموسم. أعلى عائد معدّل بالمخاطر يفوز بالتمويل.",
+    "cr.title": "ليست رسوماً. إنه رصيد محفظة تداول.",
+    "cr.sub": "لا يُنفَق مبلغ الـ 30 دولاراً — بل يتحول إلى رصيد داخل منظومة PropXP تتحكم به أنت.",
+    "cr.u1": "لشراء أي Challenge", "cr.u2": "ترقية الحساب", "cr.u3": "عروض خاصة للمتداولين", "cr.u4": "مزايا البطولة والتعليم",
+    "cr.note": "رصيد محفظة 30 دولاراً — قابل للاستخدام عبر منتجات وخدمات PropXP المؤهلة. غير قابل للاسترداد؛ لا ينتهي خلال الموسم النشط.",
+    "cr.label": "رصيد محفظة التداول", "cr.usable": "قابل للاستخدام", "cr.xp": "عند التفعيل", "cr.cta": "أنشئ الحساب وفعّل",
+    "pz.title": "أكثر من 1,000,000 دولار رأس مال تداول", "pz.sub": "هرم فائزين حقيقي — قيمة مركّزة في القمة ومكافآت مجدية حتى المركز 20.",
+    "pz.gc": "البطل الأكبر", "pz.foot": "تعكس قيم الجوائز الأحجام الاسمية لحسابات التمويل/التحدي وفرص تقاسم الأرباح، وليست مدفوعات نقدية. يُحدَّد الفائزون بناءً على أداء تداول مُتحقَّق ومعدّل بالمخاطر وفق قواعد شفافة.",
+    "pz.elite": "الفائزون النخبة", "pz.rising": "المتداولون الصاعدون", "pz.risingeach": "يحصل كل فائز على:",
+    "rf.title": "نمِّ محفظة تداولك", "rf.sub": "ادعُ الأصدقاء · اكسب رصيداً · افتح خصومات. عندما يفعّل صديقك حسابه وينفّذ أول صفقة حقيقية، تحصلان كلاكما على مكافأة.",
+    "rf.codelabel": "رمز المتداول الخاص بك", "rf.copy": "نسخ",
+    "rf.note": "المكافأة رصيد محفظة (غير قابل للسحب) يخفّض تكلفة التحديات والترقيات والتعليم. بحد أقصى عادل لكل ملف مُتحقَّق.",
+    "rf.share": "مشاركة بلمسة واحدة", "rf.sharetag": "تُنشأ تلقائياً",
+    "xp.title": "كل نشاط يمنح XP", "xp.sub": "نقاط PropXP هي سمعتك كمتداول — ارتقِ في المستويات لتفتح مزايا حقيقية.",
+    "xp.l1": "مبتدئ", "xp.l1b": "الوصول للمجتمع · بطاقة المشاركة", "xp.l2": "محترف", "xp.l2b": "خصم Challenge · دعم أسرع",
+    "xp.l3": "نخبة", "xp.l3b": "مجتمع VIP · مكافآت دعوة أكبر", "xp.l4": "أسطورة", "xp.l4b": "وصول مبكر · أعلى مكانة · أفضل الأسعار",
+    "cm.title": "مجتمع متداولين نابض", "cm.sub": "نشاط حقيقي، كل يوم.",
+    "cm.top": "أفضل متداولي اليوم", "cm.win": "أحدث الفائزين", "cm.reg": "تسجيلات حديثة", "cm.reward": "مكافآت حديثة",
+    "ru.stitle": "هيكل الموسم", "ru.rtitle": "قواعد بسيطة وشفافة",
+    "ex.title": "افتح مزايا المتداول النخبة", "ex.sub": "لديك حساب PropXP بالفعل؟ فعّل مزايا البطولة بالبريد الذي تفضّله — انقل سجلّك دون البدء من الصفر.",
+    "ex.cta": "فعّل مزاياي", "ex.note": "هل أنت متداول PropXP بالفعل؟",
+    "fq.title": "إجابات عن أسئلتك",
+    "fc.h1": "تداول. نافس. اربح.", "fc.h2": "احصل على تمويل.", "fc.sub": "البطل الأكبر القادم يبدأ بملف واحد. قد تكون أنت.",
+    "fc.cta": "أنشئ حسابك المجاني", "fc.micro": "أقل من 60 ثانية · 30 دولاراً تفعّل محفظتك · لا حاجة لسجل سابق",
+    "ft.partner": "بدعم من Global Trader Network · شريك رسمي لـ PropXP",
+    "ft.disc": "ينطوي التداول على مخاطر كبيرة. بطولة PropXP برنامج تقييم قائم على المهارة؛ تعكس الجوائز أحجاماً اسمية لحسابات التمويل/التحدي وفرص تقاسم الأرباح، وليست نقداً مضموناً. يُطلب التحقق من الهوية فقط قبل تفعيل الحساب الممول أو تسليم الجائزة. المشاركة خاضعة لشروط البرنامج والأهلية الإقليمية.",
+    "md.title": "أنشئ حسابك المجاني", "md.sub": "أنت تدخل أكبر منافسة مهارة في PropXP. ابنِ مرتبتك بأداء حقيقي.",
+    "md.submit": "أنشئ حسابي المجاني", "md.note": "تأكيد OTP بسيط يثبت أنك متداول حقيقي. يُطلب التحقق من الهوية فقط قبل تفعيل الحساب الممول أو تسليم الجائزة."
+  },
+
+  tr: {
+    "nav.prizes": "Ödüller", "nav.how": "Nasıl çalışır", "nav.ref": "Davet et & Kazan", "nav.faq": "SSS", "nav.join": "Ücretsiz Katıl",
+    "hero.powered": "Global Trader Network tarafından · Resmi PropXP Ortağı",
+    "hero.season": "Sezon 1 · Kayıt Açık",
+    "hero.h1a": "Yeteneğini Kanıtla.", "hero.h1b": "Sermayeni Kazan.",
+    "hero.sub": "Küresel trader ligi. Ücretsiz kayıt ol, gerçek yeteneğinle işlem yap ve 1.000.000$+ fonlanmış sermaye fırsatı için yarış.",
+    "hero.vp1": "Ücretsiz şampiyona girişi", "hero.vp2": "30$ İşlem Cüzdanı Kredisi", "hero.vp3": "İlk 20 fonlanmış hesap kazanır", "hero.vp4": "Arkadaşını davet et, ödül kazan",
+    "hero.cta1": "Ücretsiz Hesabını Oluştur", "hero.cta2": "Ödülleri Gör",
+    "hero.micro": "60 saniyeden kısa ücretsiz kayıt · İstediğin zaman aktive et",
+    "hero.seats": "VIP koltuk kaldı",
+    "sch.title": "Sezon 1 Takvimi",
+    "sch.reg": "Kayıt", "sch.regd": "18 Tem – 17 Ağu 2026",
+    "sch.comp": "Şampiyona", "sch.compd": "17 Ağu – 30 Ağu 2026",
+    "sch.win": "Kazananlar açıklanır", "sch.wind": "31 Ağu 2026 · İlk 20 fonlanır",
+    "sch.cdlabel": "Kayıt kapanışına:", "sch.d": "GÜN", "sch.h": "SAAT", "sch.m": "DK", "sch.s": "SN",
+    "sp.traders": "Trader katıldı", "sp.countries": "Ülke", "sp.trades": "İşlem tamamlandı", "sp.paid": "Trader'lara ödendi",
+    "tl.title": "Sezon nasıl işler", "tl.reg": "Kayıt Açık", "tl.champ": "İşlem Şampiyonası", "tl.win": "İlk 20 Kazanan", "tl.fund": "Fonlanmış Hesaplar",
+    "how.title": "Üç adımda katıl", "how.sub": "Bir kampanya değil, bir trader kulübü. Bir dakikadan kısa sürede içindesin.",
+    "how.s1t": "Ücretsiz hesabını oluştur", "how.s1b": "Ad, e-posta, telefon ve ülke. Hızlı bir OTP gerçek trader olduğunu doğrular — ağır KYC yok.",
+    "how.s2t": "Hesabını aktive et", "how.s2b": "30$ İşlem Cüzdanı Kredini ekle — cüzdanında ekosistem değeri olarak kalır, ürünlerde kullanılabilir.",
+    "how.s3t": "İşlem yap ve yüksel", "how.s3b": "Sezon boyunca canlı sıralamada yarış. En yüksek riske göre ayarlanmış getiri fonlanmış sermaye kazanır.",
+    "cr.title": "Ücret değil. Bir işlem cüzdanı kredisi.",
+    "cr.sub": "30$'ın harcanmaz — kontrolü sende olan PropXP ekosistemi içinde bakiyeye dönüşür.",
+    "cr.u1": "Herhangi bir Challenge alımına", "cr.u2": "Hesap yükseltme", "cr.u3": "Özel trader teklifleri", "cr.u4": "Şampiyona avantajları ve eğitim",
+    "cr.note": "30$ İşlem Cüzdanı Kredisi — uygun PropXP ürün ve hizmetlerinde kullanılabilir. İade edilmez; aktif sezon boyunca süresi dolmaz.",
+    "cr.label": "İşlem Cüzdanı Kredisi", "cr.usable": "Kullanılabilir", "cr.xp": "Aktivasyonda", "cr.cta": "Hesap Oluştur & Aktive Et",
+    "pz.title": "1.000.000$+ işlem sermayesi", "pz.sub": "Gerçek bir kazanan piramidi — tepede yoğun değer, 20. sıraya kadar anlamlı ödüller.",
+    "pz.gc": "BÜYÜK ŞAMPİYON", "pz.foot": "Ödül değerleri nominal fonlanmış/challenge hesap büyüklüklerini ve kâr paylaşımı fırsatlarını yansıtır, nakit ödeme değildir. Kazananlar, şeffaf kurallar altında doğrulanmış, riske göre ayarlanmış performansla belirlenir.",
+    "pz.elite": "Elit Kazananlar", "pz.rising": "Yükselen Trader'lar", "pz.risingeach": "Her kazanan şunu alır:",
+    "rf.title": "İşlem cüzdanını büyüt", "rf.sub": "Arkadaş davet et · Kredi kazan · İndirim aç. Arkadaşın aktive olup ilk gerçek işlemini yaptığında ikiniz de bonus alırsınız.",
+    "rf.codelabel": "Trader Kodun", "rf.copy": "Kopyala",
+    "rf.note": "Bonus, Challenge/yükseltme/eğitim maliyetini düşüren cüzdan kredisidir (çekilemez). Doğrulanmış profil başına adil kullanım sınırı.",
+    "rf.share": "Tek dokunuşla paylaş", "rf.sharetag": "Otomatik oluşturulur",
+    "xp.title": "Her eylem XP kazandırır", "xp.sub": "PropXP Skorun trader itibarındır — seviye atladıkça gerçek avantajlar açılır.",
+    "xp.l1": "Acemi", "xp.l1b": "Topluluk erişimi · Paylaşım Kartı", "xp.l2": "Pro", "xp.l2b": "Challenge indirimi · Daha hızlı destek",
+    "xp.l3": "Elit", "xp.l3b": "VIP topluluk · Daha büyük davet ödülleri", "xp.l4": "Efsane", "xp.l4b": "Erken erişim · En üst statü · En iyi fiyat",
+    "cm.title": "Yaşayan bir trader topluluğu", "cm.sub": "Her gün gerçek aktivite.",
+    "cm.top": "Bugünün En İyileri", "cm.win": "Son Kazananlar", "cm.reg": "Son Kayıtlar", "cm.reward": "Son Ödüller",
+    "ru.stitle": "Sezon yapısı", "ru.rtitle": "Basit, şeffaf kurallar",
+    "ex.title": "Elit Trader Avantajlarını aç", "ex.sub": "Zaten PropXP hesabın var mı? Şampiyona avantajlarını tercih ettiğin e-postayla aktive et — geçmişini taşı, sıfırdan başlama.",
+    "ex.cta": "Avantajlarımı Aktive Et", "ex.note": "Zaten PropXP Trader mısın?",
+    "fq.title": "Sorular, yanıtlandı",
+    "fc.h1": "İşlem yap. Yarış. Kazan.", "fc.h2": "Fonlan.", "fc.sub": "Bir sonraki Büyük Şampiyon tek bir profille başlar. Sıradaki sen olabilirsin.",
+    "fc.cta": "Ücretsiz Hesabını Oluştur", "fc.micro": "60 saniyeden kısa · 30$ cüzdanını aktive eder · Geçmiş gerekmez",
+    "ft.partner": "Global Trader Network tarafından · Resmi PropXP Ortağı",
+    "ft.disc": "İşlem yapmak önemli risk içerir. PropXP Şampiyonası yetenek temelli bir değerlendirme programıdır; ödüller nominal fonlanmış/challenge hesap büyüklüklerini ve kâr paylaşımı fırsatlarını yansıtır, garantili nakit değildir. Kimlik doğrulama yalnızca fonlanmış hesap aktivasyonu veya ödül teslimatı öncesinde gerekir. Katılım program şartlarına ve bölgesel uygunluğa tabidir.",
+    "md.title": "Ücretsiz Hesabını Oluştur", "md.sub": "PropXP'nin en büyük yetenek yarışmasına giriyorsun. Sıralamanı gerçek performansla inşa et.",
+    "md.submit": "Ücretsiz hesabımı oluştur", "md.note": "Hafif OTP doğrulaması gerçek trader olduğunu teyit eder. Kimlik doğrulama yalnızca fonlanmış hesap aktivasyonu veya ödül teslimatı öncesinde gerekir."
+  }
+};
+
+</script>
+  <script>
+// i18n extension — merged into window.I18N (loaded after i18n.js).
+// Also OVERRIDES some base keys ($30 wording) since Object.assign merges last.
+(function () {
+  const ext = {
+    en: {
+      "crules.title": "Championship trading rules",
+      "crules.sub": "Professional prop-firm standard — simple and transparent, no complex formulas.",
+      "crules.acc": "Championship Account", "crules.accv": "$100,000 Demo",
+      "crules.daily": "Max Daily Loss", "crules.dailyv": "5%",
+      "crules.overall": "Max Overall Loss", "crules.overallv": "10%",
+      "crules.period": "Trading Period", "crules.periodv": "14 days",
+      "crules.markets": "Allowed Markets", "crules.marketsv": "Forex · Gold · Indices · Commodities · Crypto",
+      "crules.rank": "Winner Ranking", "crules.rankv": "Highest % return within risk limits",
+      "crules.pol": "Trading policies",
+      "crules.p1": "Scalping allowed", "crules.p2": "News trading allowed (per PropXP rules)",
+      "crules.p3": "Weekend holding allowed (per PropXP rules)", "crules.p4": "No minimum trading days · no complex scoring formulas",
+      "crules.p5": "Expert Advisors / trading bots: restricted (per PropXP rules)", "crules.p6": "Copy trading: restricted",
+      "md.success": "You're registered! (+100 XP)", "md.codelabel": "Your personal Trader Code:",
+      "md.redirect": "Activate on PropXP →", "md.later": "Maybe later",
+      "md.saved": "Your details are saved — you won't lose your spot.",
+      // --- $30 reframing overrides ---
+      "hero.vp2": "$30 Activation Credit",
+      "how.s2b": "Add your $30 Activation Credit — it's not a prize fee. It stays in your PropXP wallet and converts into rewards & special discounts.",
+      "cr.title": "Not a fee. Your activation credit.",
+      "cr.label": "Activation Credit",
+      "cr.note": "$30 Activation Credit — not the cost of any prize. It's usable balance inside PropXP, redeemable across Challenges, upgrades, offers and education. Non-refundable; does not expire during the active season.",
+      "cr.guarantee": "Even if you don't rank in the Top 20, your $30 converts into rewards and special discounts inside PropXP — you never lose it."
+    },
+    fa: {
+      "crules.title": "قوانین معاملاتی مسابقه",
+      "crules.sub": "استاندارد حرفه‌ای پراپ‌فرم — ساده و شفاف، بدون فرمول پیچیده.",
+      "crules.acc": "حساب مسابقه", "crules.accv": "دموی ۱۰۰٬۰۰۰ دلاری",
+      "crules.daily": "حداکثر ضرر روزانه", "crules.dailyv": "۵٪",
+      "crules.overall": "حداکثر ضرر کل", "crules.overallv": "۱۰٪",
+      "crules.period": "دورهٔ معاملاتی", "crules.periodv": "۱۴ روز",
+      "crules.markets": "بازارهای مجاز", "crules.marketsv": "فارکس · طلا · شاخص‌ها · کالاها · کریپتو",
+      "crules.rank": "رتبه‌بندی برنده", "crules.rankv": "بیشترین درصد بازده با رعایت محدودیت ریسک",
+      "crules.pol": "سیاست‌های معاملاتی",
+      "crules.p1": "اسکالپ مجاز است", "crules.p2": "معاملهٔ خبری مجاز است (طبق قوانین PropXP)",
+      "crules.p3": "نگه‌داری آخر هفته مجاز است (طبق قوانین PropXP)", "crules.p4": "بدون حداقل روز معاملاتی · بدون فرمول امتیازدهی پیچیده",
+      "crules.p5": "اکسپرت/ربات معاملاتی: محدود (طبق قوانین PropXP)", "crules.p6": "کپی‌تریدینگ: محدود",
+      "md.success": "ثبت‌نامت انجام شد! (+۱۰۰ XP)", "md.codelabel": "کد تریدر اختصاصی تو:",
+      "md.redirect": "فعال‌سازی در PropXP ←", "md.later": "بعداً",
+      "md.saved": "اطلاعاتت ذخیره شد — جایگاهت را از دست نمی‌دهی.",
+      "hero.vp2": "۳۰ دلار اعتبار فعال‌سازی",
+      "how.s2b": "۳۰ دلار اعتبار فعال‌سازی را اضافه کن — هزینهٔ جایزه نیست. در کیف پول PropXP تو می‌ماند و به پاداش و تخفیف‌های ویژه تبدیل می‌شود.",
+      "cr.title": "هزینه نیست. اعتبار فعال‌سازی توست.",
+      "cr.label": "اعتبار فعال‌سازی",
+      "cr.note": "۳۰ دلار اعتبار فعال‌سازی — هزینهٔ هیچ جایزه‌ای نیست. موجودی قابل استفاده داخل PropXP است؛ روی Challenge، ارتقا، پیشنهادها و آموزش. غیرقابل بازگشت؛ در طول فصل فعال منقضی نمی‌شود.",
+      "cr.guarantee": "حتی اگر جزو ۲۰ نفر برتر نشوی، ۳۰ دلارت به پاداش و تخفیف‌های ویژه داخل PropXP تبدیل می‌شود — هرگز از دست نمی‌رود."
+    },
+    ar: {
+      "crules.title": "قواعد تداول البطولة",
+      "crules.sub": "معيار احترافي لشركات التمويل — بسيط وشفاف، دون معادلات معقدة.",
+      "crules.acc": "حساب البطولة", "crules.accv": "تجريبي 100,000 دولار",
+      "crules.daily": "حد الخسارة اليومي", "crules.dailyv": "5%",
+      "crules.overall": "حد الخسارة الإجمالي", "crules.overallv": "10%",
+      "crules.period": "فترة التداول", "crules.periodv": "14 يوماً",
+      "crules.markets": "الأسواق المسموحة", "crules.marketsv": "فوركس · ذهب · مؤشرات · سلع · كريبتو",
+      "crules.rank": "ترتيب الفائز", "crules.rankv": "أعلى نسبة عائد ضمن حدود المخاطر",
+      "crules.pol": "سياسات التداول",
+      "crules.p1": "السكالبينج مسموح", "crules.p2": "تداول الأخبار مسموح (وفق قواعد PropXP)",
+      "crules.p3": "الاحتفاظ في نهاية الأسبوع مسموح (وفق قواعد PropXP)", "crules.p4": "لا حد أدنى لأيام التداول · لا معادلات تسجيل معقدة",
+      "crules.p5": "المستشارون الخبراء / روبوتات التداول: مقيّدة (وفق قواعد PropXP)", "crules.p6": "نسخ التداول: مقيّد",
+      "md.success": "تم تسجيلك! (+100 XP)", "md.codelabel": "رمز المتداول الخاص بك:",
+      "md.redirect": "فعّل على PropXP ←", "md.later": "لاحقاً",
+      "md.saved": "تم حفظ بياناتك — لن تفقد مقعدك.",
+      "hero.vp2": "رصيد تفعيل 30 دولاراً",
+      "how.s2b": "أضف رصيد التفعيل 30 دولاراً — إنه ليس رسوم جائزة. يبقى في محفظة PropXP ويتحول إلى مكافآت وخصومات خاصة.",
+      "cr.title": "ليست رسوماً. إنه رصيد تفعيلك.",
+      "cr.label": "رصيد التفعيل",
+      "cr.note": "رصيد تفعيل 30 دولاراً — ليس تكلفة أي جائزة. رصيد قابل للاستخدام داخل PropXP عبر التحديات والترقيات والعروض والتعليم. غير قابل للاسترداد؛ لا ينتهي خلال الموسم النشط.",
+      "cr.guarantee": "حتى إن لم تكن ضمن أفضل 20، يتحول مبلغك (30 دولاراً) إلى مكافآت وخصومات خاصة داخل PropXP — لن تخسره أبداً."
+    },
+    tr: {
+      "crules.title": "Şampiyona trading kuralları",
+      "crules.sub": "Profesyonel prop-firm standardı — basit ve şeffaf, karmaşık formül yok.",
+      "crules.acc": "Şampiyona Hesabı", "crules.accv": "100.000$ Demo",
+      "crules.daily": "Maks. Günlük Kayıp", "crules.dailyv": "%5",
+      "crules.overall": "Maks. Toplam Kayıp", "crules.overallv": "%10",
+      "crules.period": "İşlem Süresi", "crules.periodv": "14 gün",
+      "crules.markets": "İzin Verilen Piyasalar", "crules.marketsv": "Forex · Altın · Endeksler · Emtia · Kripto",
+      "crules.rank": "Kazanan Sıralaması", "crules.rankv": "Risk limitleri içinde en yüksek % getiri",
+      "crules.pol": "Trading politikaları",
+      "crules.p1": "Scalping serbest", "crules.p2": "Haber ticareti serbest (PropXP kurallarına göre)",
+      "crules.p3": "Hafta sonu taşıma serbest (PropXP kurallarına göre)", "crules.p4": "Minimum işlem günü yok · karmaşık puanlama formülü yok",
+      "crules.p5": "Expert Advisor / trading botları: kısıtlı (PropXP kurallarına göre)", "crules.p6": "Copy trading: kısıtlı",
+      "md.success": "Kaydın tamamlandı! (+100 XP)", "md.codelabel": "Kişisel Trader Kodun:",
+      "md.redirect": "PropXP'de Aktive Et →", "md.later": "Sonra",
+      "md.saved": "Bilgilerin kaydedildi — yerini kaybetmezsin.",
+      "hero.vp2": "30$ Aktivasyon Kredisi",
+      "how.s2b": "30$ Aktivasyon Kredini ekle — bir ödül ücreti değildir. PropXP cüzdanında kalır ve ödüllere & özel indirimlere dönüşür.",
+      "cr.title": "Ücret değil. Senin aktivasyon kredin.",
+      "cr.label": "Aktivasyon Kredisi",
+      "cr.note": "30$ Aktivasyon Kredisi — hiçbir ödülün maliyeti değildir. PropXP içinde kullanılabilir bakiyedir; Challenge, yükseltme, teklif ve eğitimde geçerlidir. İade edilmez; aktif sezon boyunca süresi dolmaz.",
+      "cr.guarantee": "İlk 20'ye giremesen bile, 30$'ın PropXP içinde ödüllere ve özel indirimlere dönüşür — asla kaybetmezsin."
+    }
+  };
+  for (const l in ext) { window.I18N[l] = Object.assign(window.I18N[l] || {}, ext[l]); }
+})();
+
+</script>
+  <script>
+// ============================================================
+// PropXP Trader Championship — Landing + Lead Capture engine
+// ============================================================
+
+// ---- CONFIG (edit these for production) ----
+const PROPXP_URL = "https://app.propxp.com/register?referral_id=8ab7099c934063816639";
+const LEAD_ENDPOINT = ""; // e.g. "https://api.yourdomain.com/leads" — if set, POST there; else localStorage demo
+const LS_LEADS = "propxp_leads";
+const LS_REFS = "propxp_referrals";
+
+// ============ FAQ content (per language) ============
+const FAQ = {
+  en: [
+    ["Is registration free?", "Yes — creating your account and joining the championship is free. The $30 is an optional Trading Wallet Credit that activates your championship benefits and stays as usable balance."],
+    ["Who can participate?", "Any trader (18+) where the program is available. Trading schools, education centers and groups may register multiple students — even from the same location."],
+    ["Is the $30 refundable?", "It's a Trading Wallet Credit redeemable across eligible PropXP Challenges, upgrades, offers and education. Non-refundable, but it does not expire during the active season."],
+    ["What are the trading rules?", "A $100,000 Championship demo account · 5% max daily loss · 10% max overall loss · 14-day trading period · Forex, Gold, Indices, Commodities & Crypto. Scalping and news trading are allowed within policy."],
+    ["How are winners selected?", "Highest percentage return while respecting the risk limits. Suspicious trades are reviewed before any payout — no complex scoring formulas."],
+    ["When are rewards delivered?", "Winners are announced on 31 August 2026. Funded account opportunities for the Top 20 are delivered within 7 days of the announcement."]
+  ],
+  fa: [
+    ["ثبت‌نام رایگان است؟", "بله — ساخت حساب و ورود به مسابقه رایگان است. ۳۰ دلار یک اعتبار اختیاری کیف پول است که مزایای مسابقه را فعال می‌کند و به‌صورت موجودی قابل استفاده باقی می‌ماند."],
+    ["چه کسانی می‌توانند شرکت کنند؟", "هر تریدر بالای ۱۸ سال در مناطقی که برنامه در دسترس است. مدارس و مراکز آموزش و گروه‌ها می‌توانند چند دانشجو را ثبت‌نام کنند — حتی از یک مکان."],
+    ["۳۰ دلار قابل بازگشت است؟", "اعتبار کیف پول است که روی Challenge، ارتقا، پیشنهادها و آموزش واجد شرایط PropXP قابل استفاده است. غیرقابل بازگشت، اما در طول فصل فعال منقضی نمی‌شود."],
+    ["قوانین معاملاتی چیست؟", "حساب دموی ۱۰۰٬۰۰۰ دلاری · حداکثر ضرر روزانه ۵٪ · حداکثر ضرر کل ۱۰٪ · دورهٔ ۱۴ روزه · فارکس، طلا، شاخص‌ها، کالاها و کریپتو. اسکالپ و معاملهٔ خبری طبق سیاست مجاز است."],
+    ["برندگان چطور انتخاب می‌شوند؟", "بیشترین درصد بازده با رعایت محدودیت‌های ریسک. معاملات مشکوک پیش از هر پرداخت بررسی می‌شوند — بدون فرمول‌های پیچیده."],
+    ["جوایز کِی تحویل می‌شوند؟", "برندگان در ۹ شهریور ۱۴۰۵ (۳۱ اوت ۲۰۲۶) اعلام می‌شوند. فرصت حساب Funded برای ۲۰ نفر برتر ظرف ۷ روز پس از اعلام تحویل می‌شود."]
+  ],
+  ar: [
+    ["هل التسجيل مجاني؟", "نعم — إنشاء الحساب والانضمام للبطولة مجاني. مبلغ الـ 30 دولاراً رصيد محفظة اختياري يفعّل مزايا البطولة ويبقى كرصيد قابل للاستخدام."],
+    ["من يمكنه المشاركة؟", "أي متداول (18+) حيث يتوفر البرنامج. يمكن لمدارس ومراكز التداول والمجموعات تسجيل عدة طلاب — حتى من الموقع نفسه."],
+    ["هل الـ 30 دولاراً قابلة للاسترداد؟", "إنه رصيد محفظة قابل للاستخدام عبر تحديات وترقيات وعروض وتعليم PropXP المؤهّلة. غير قابل للاسترداد، لكنه لا ينتهي خلال الموسم النشط."],
+    ["ما هي قواعد التداول؟", "حساب تجريبي بقيمة 100,000 دولار · حد خسارة يومي 5% · حد خسارة إجمالي 10% · فترة 14 يوماً · فوركس وذهب ومؤشرات وسلع وكريبتو. السكالبينج وتداول الأخبار مسموحان وفق السياسة."],
+    ["كيف يُختار الفائزون؟", "أعلى نسبة عائد مع احترام حدود المخاطر. تُراجَع الصفقات المشبوهة قبل أي دفع — دون معادلات معقدة."],
+    ["متى تُسلَّم الجوائز؟", "يُعلَن الفائزون في 31 أغسطس 2026. تُسلَّم فرص الحسابات الممولة لأفضل 20 خلال 7 أيام من الإعلان."]
+  ],
+  tr: [
+    ["Kayıt ücretsiz mi?", "Evet — hesap oluşturmak ve şampiyonaya katılmak ücretsizdir. 30$ isteğe bağlı bir İşlem Cüzdanı Kredisidir; şampiyona avantajlarını aktive eder ve kullanılabilir bakiye olarak kalır."],
+    ["Kimler katılabilir?", "Programın sunulduğu yerlerde 18 yaş üstü her trader. Trading okulları, eğitim merkezleri ve gruplar birden fazla öğrenciyi — aynı konumdan bile — kaydedebilir."],
+    ["30$ iade edilir mi?", "Uygun PropXP Challenge, yükseltme, teklif ve eğitimlerde kullanılabilen bir cüzdan kredisidir. İade edilmez, ancak aktif sezon boyunca süresi dolmaz."],
+    ["Trading kuralları nedir?", "100.000$ demo hesap · %5 maks. günlük kayıp · %10 maks. toplam kayıp · 14 günlük dönem · Forex, Altın, Endeksler, Emtia ve Kripto. Scalping ve haber ticareti politika dahilinde serbesttir."],
+    ["Kazananlar nasıl seçilir?", "Risk limitlerine uyarak en yüksek yüzde getiri. Şüpheli işlemler ödemeden önce incelenir — karmaşık formül yok."],
+    ["Ödüller ne zaman teslim edilir?", "Kazananlar 31 Ağustos 2026'da açıklanır. İlk 20 için fonlanmış hesap fırsatları duyurudan sonra 7 gün içinde teslim edilir."]
+  ]
+};
+
+// ============ i18n engine ============
+let currentLang = "en";
+function t(key) { return (window.I18N[currentLang] && window.I18N[currentLang][key]) || window.I18N.en[key] || key; }
+
+function applyLang(lang) {
+  if (!window.I18N[lang]) lang = "en";
+  currentLang = lang;
+  document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.getAttribute("data-i18n")); });
+  const rtl = window.RTL_LANGS.includes(lang);
+  const html = document.documentElement;
+  html.setAttribute("dir", rtl ? "rtl" : "ltr");
+  html.setAttribute("lang", lang);
+  document.body.classList.toggle("rtl", rtl);
+  document.getElementById("langCurrent").textContent = window.LANG_LABELS[lang] || "English";
+  renderFAQ();
+}
+
+function renderFAQ() {
+  const list = document.getElementById("faqList");
+  const items = FAQ[currentLang] || FAQ.en;
+  list.innerHTML = items.map(([q, a]) =>
+    `<details class="card p-5"><summary class="font-semibold cursor-pointer list-none flex justify-between gap-3">${q}<span class="text-[var(--muted)]">+</span></summary><p class="text-[var(--muted)] mt-3">${a}</p></details>`
+  ).join("");
+}
+
+(function () {
+  const menu = document.getElementById("langMenu");
+  const btn = document.getElementById("langBtn");
+  menu.innerHTML = Object.keys(window.LANG_LABELS).map((k) =>
+    `<button class="lang-opt w-full text-start px-3 py-2 rounded-lg text-sm" data-lang="${k}">${window.LANG_LABELS[k]}</button>`
+  ).join("");
+  btn.addEventListener("click", (e) => { e.stopPropagation(); menu.classList.toggle("hidden"); });
+  document.addEventListener("click", () => menu.classList.add("hidden"));
+  menu.addEventListener("click", (e) => {
+    const l = e.target.getAttribute("data-lang");
+    if (l) { applyLang(l); menu.classList.add("hidden"); }
+  });
+})();
+
+// ============ Countdown — ends exactly 17 Aug 2026 00:00 UTC ============
+(function () {
+  const end = new Date("2026-08-17T00:00:00Z");
+  const pad = (n) => String(n).padStart(2, "0");
+  function tick() {
+    let diff = Math.max(0, Math.floor((end - new Date()) / 1000));
+    const d = Math.floor(diff / 86400); diff -= d * 86400;
+    const h = Math.floor(diff / 3600); diff -= h * 3600;
+    const m = Math.floor(diff / 60); const s = diff - m * 60;
+    const set = (k, v) => { const el = document.querySelector(`[data-cd="${k}"]`); if (el) el.textContent = pad(v); };
+    set("d", d); set("h", h); set("m", m); set("s", s);
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+// ============ Campaign / referral context ============
+const params = new URLSearchParams(location.search);
+const CAMPAIGN = {
+  referral_id_in: params.get("ref") || params.get("referral_id") || "",
+  utm_source: params.get("utm_source") || "",
+  utm_medium: params.get("utm_medium") || "",
+  utm_campaign: params.get("utm_campaign") || "",
+  utm_term: params.get("utm_term") || "",
+  utm_content: params.get("utm_content") || "",
+  campaign_source: params.get("utm_source") || (document.referrer ? new URL(document.referrer).hostname : "direct")
+};
+
+// count a referral click if arrived via ?ref=
+(function () {
+  if (!CAMPAIGN.referral_id_in) return;
+  try {
+    const refs = JSON.parse(localStorage.getItem(LS_REFS) || "{}");
+    const r = refs[CAMPAIGN.referral_id_in] || { clicks: 0, registered: 0, paid: 0 };
+    r.clicks += 1;
+    refs[CAMPAIGN.referral_id_in] = r;
+    localStorage.setItem(LS_REFS, JSON.stringify(refs));
+  } catch (e) {}
+})();
+
+// ============ Seats FOMO ============
+(function () {
+  let seats = 174;
+  const el = document.getElementById("seatsLeft");
+  setInterval(() => { if (seats > 96 && Math.random() > 0.6) { seats -= 1; el.textContent = seats; } }, 9000);
+})();
+
+// ============ Live community feed ============
+(function () {
+  const names = ["Ahmed R.", "Wei L.", "Ali M.", "Priya S.", "Mert K.", "Ivan P.", "Sara N.", "Diego F.", "Yuki T.", "Omar H.", "Lena B.", "Raj P.", "Nina V.", "Karim Z.", "Sofia G."];
+  const flags = ["🇦🇪", "🇨🇳", "🇮🇷", "🇮🇳", "🇹🇷", "🇷🇺", "🇸🇦", "🇧🇷", "🇯🇵", "🇪🇬", "🇩🇪", "🇬🇧", "🇳🇬", "🇫🇷", "🇪🇸"];
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const row = (main, sub) => `<div class="feed-item pb-2.5 flex items-center gap-2.5"><span class="feed-dot shrink-0"></span><div class="min-w-0"><div class="truncate font-medium">${main}</div><div class="text-[10px] text-[var(--muted)]">${sub}</div></div></div>`;
+  const fill = (id, gen, n) => { document.getElementById(id).innerHTML = Array.from({ length: n }, gen).join(""); };
+  const rndName = () => { const i = Math.floor(Math.random() * names.length); return `${flags[i]} ${names[i]}`; };
+  function refresh() {
+    fill("feedTop", () => row(rndName(), `+${(Math.random() * 18 + 4).toFixed(1)}% return`), 4);
+    fill("feedWin", () => row(rndName(), pick(["$25K Challenge", "$50K Funded", "$500 Credit", "$10K Challenge"])), 4);
+    fill("feedReg", () => row(rndName(), `${Math.floor(Math.random() * 59) + 1} min ago`), 4);
+    fill("feedReward", () => row(rndName(), pick(["+$10 referral bonus", "+1000 XP", "Reached Elite", "+$10 wallet credit"])), 4);
+  }
+  refresh(); setInterval(refresh, 5000);
+})();
+
+// ============ Toast ============
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.remove("hidden");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.add("hidden"), 2600);
+}
+
+// ============ Copy ============
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-copy]");
+  if (!btn) return;
+  const text = document.getElementById(btn.getAttribute("data-copy"))?.textContent?.trim() || "";
+  navigator.clipboard?.writeText(text).finally(() => toast("Copied: " + text));
+});
+
+// ============ Community links + invite ============
+const COMMUNITY = {
+  wa: "https://chat.whatsapp.com/FJbkLN6KzcOFROgKgHrUWg?s=cl&p=a&ilr=1",
+  ig: "https://www.instagram.com/propxpofficial?igsh=ZWMycW50Z29mejlo",
+  tg: "https://t.me/iranforexforum"
+};
+function inviteMessage() {
+  const code = document.getElementById("shareCode")?.textContent?.trim() || "HJX2026";
+  return `I joined the PropXP Trader Championship 🏆\n$200,000+ funded prizes.\nCan you beat my trading skills?\nJoin me: https://propxp.io/join/${code}`;
+}
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-share]");
+  if (!btn) return;
+  const url = COMMUNITY[btn.getAttribute("data-share")];
+  if (url) window.open(url, "_blank", "noopener");
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("[data-copy-invite]")) return;
+  navigator.clipboard?.writeText(inviteMessage()).finally(() => toast("Invite message copied — paste it anywhere to share"));
+});
+
+// ============ Modal ============
+const modal = document.getElementById("joinModal");
+const openModal = () => { modal.classList.remove("hidden"); modal.classList.add("flex"); };
+const closeModal = () => { modal.classList.add("hidden"); modal.classList.remove("flex"); };
+document.addEventListener("click", (e) => {
+  if (e.target.closest("[data-join]")) openModal();
+  if (e.target.closest("[data-close]") || e.target === modal) closeModal();
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+// ============ Lead capture helpers ============
+const DISPOSABLE = ["mailinator", "tempmail", "temp-mail", "10minutemail", "guerrillamail", "yopmail", "trashmail", "sharklasers", "getnada", "dispostable", "fakeinbox", "throwawaymail"];
+function isTempEmail(email) {
+  const d = (email.split("@")[1] || "").toLowerCase();
+  return !d.includes(".") || DISPOSABLE.some((x) => d.includes(x));
+}
+function normalizePhone(p) { return (p || "").replace(/[^\d+]/g, ""); }
+function detectDevice(ua) {
+  if (/iPad|Tablet|PlayBook|Silk/i.test(ua)) return "Tablet";
+  if (/Mobi|Android|iPhone|iPod/i.test(ua)) return "Mobile";
+  return "Desktop";
+}
+function makeCode(name) {
+  const base = (name || "TRADER").replace(/[^a-zA-Z]/g, "").slice(0, 3).toUpperCase() || "PXP";
+  return `${base}${Math.floor(1000 + Math.random() * 9000)}`;
+}
+function makeLeadId() {
+  return "PX-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).slice(2, 6).toUpperCase();
+}
+function getLeads() { try { return JSON.parse(localStorage.getItem(LS_LEADS) || "[]"); } catch (e) { return []; } }
+function saveLead(lead) {
+  const leads = getLeads();
+  leads.push(lead);
+  localStorage.setItem(LS_LEADS, JSON.stringify(leads));
+  // referral attribution
+  if (lead.referral_id_in) {
+    const refs = JSON.parse(localStorage.getItem(LS_REFS) || "{}");
+    const r = refs[lead.referral_id_in] || { clicks: 0, registered: 0, paid: 0 };
+    r.registered += 1; refs[lead.referral_id_in] = r;
+    localStorage.setItem(LS_REFS, JSON.stringify(refs));
+  }
+}
+function trackEvent(name, data) {
+  // analytics hook — GA4 / Meta Pixel plug in here
+  if (window.dataLayer) window.dataLayer.push({ event: name, ...data });
+  if (window.fbq) try { window.fbq("trackCustom", name, data); } catch (e) {}
+}
+
+// ============ Submit: capture lead FIRST, then redirect to PropXP ============
+let PENDING_REDIRECT = PROPXP_URL;
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("[data-submit]")) return;
+
+  const name = document.querySelector('[data-f="name"]').value.trim();
+  const email = document.querySelector('[data-f="email"]').value.trim();
+  const phone = normalizePhone(document.querySelector('[data-f="phone"]').value);
+  const country = document.querySelector('[data-f="country"]').value;
+
+  if (!name || !email || !phone) { toast("Please fill name, email and mobile"); return; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { toast("Please enter a valid email"); return; }
+  if (isTempEmail(email)) { toast("Temporary email addresses are not allowed"); return; }
+
+  // duplicate mobile (NOT IP — schools/groups may share location)
+  const leads = getLeads();
+  if (leads.some((l) => l.mobile === phone)) { toast("This mobile number is already registered"); return; }
+
+  const now = new Date();
+  const code = makeCode(name);
+  const lead = {
+    lead_id: makeLeadId(),
+    full_name: name,
+    email: email,
+    mobile: phone,
+    country: country || "",
+    registration_date: now.toISOString().slice(0, 10),
+    registration_time: now.toTimeString().slice(0, 8),
+    registration_iso: now.toISOString(),
+    referral_id_in: CAMPAIGN.referral_id_in,     // who referred THIS lead
+    my_referral_code: code,                        // this lead's own code
+    campaign_source: CAMPAIGN.campaign_source,
+    utm_source: CAMPAIGN.utm_source,
+    utm_medium: CAMPAIGN.utm_medium,
+    utm_campaign: CAMPAIGN.utm_campaign,
+    utm_term: CAMPAIGN.utm_term,
+    utm_content: CAMPAIGN.utm_content,
+    user_agent: navigator.userAgent,
+    device_type: detectDevice(navigator.userAgent),
+    language: currentLang,
+    payment_status: "unpaid",              // NEW LEAD -> unpaid
+    propxp_activation_status: "pending",   // not yet activated
+    stage: "REGISTERED"
+  };
+
+  // 1) Save immediately (even if user never pays)
+  if (LEAD_ENDPOINT) {
+    fetch(LEAD_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(lead) }).catch(() => {});
+  }
+  saveLead(lead);
+  trackEvent("lead_registered", { lead_id: lead.lead_id, country: lead.country, source: lead.campaign_source });
+
+  // 2) Prepare PropXP redirect with our lead_id attached for reconciliation
+  const sep = PROPXP_URL.includes("?") ? "&" : "?";
+  PENDING_REDIRECT = `${PROPXP_URL}${sep}lead_id=${encodeURIComponent(lead.lead_id)}`;
+
+  // 3) Show success
+  document.getElementById("newCode").textContent = code;
+  document.getElementById("referralCode").textContent = code;
+  document.getElementById("shareCode").textContent = code;
+  document.getElementById("joinForm").classList.add("hidden");
+  document.getElementById("joinSuccess").classList.remove("hidden");
+});
+
+// Redirect to PropXP activation
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("[data-redirect]")) return;
+  trackEvent("redirect_propxp", { url: PENDING_REDIRECT });
+  window.open(PENDING_REDIRECT, "_blank", "noopener");
+});
+
+// ============ init ============
+applyLang("en");
+
+</script>
+</body>
+</html>
